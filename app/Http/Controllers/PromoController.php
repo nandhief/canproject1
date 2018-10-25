@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Promo;
+use App\Traits\Upload;
 use Illuminate\Http\Request;
 
 class PromoController extends Controller
@@ -47,6 +48,7 @@ class PromoController extends Controller
             'short_desc' => 'max:255',
             'description' => 'required',
         ]);
+        $request = $this->saveFile($request);
         $promos = Promo::create($request->all());
         return redirect()->route('promos.show', $promos->id)->withSuccess('Data berhasil disimpan');
     }
@@ -87,6 +89,7 @@ class PromoController extends Controller
             'short_desc' => 'max:255',
             'description' => 'required',
         ]);
+        $request = $this->saveFile($request);
         $promo->update($request->all());
         return redirect()->route('promos.show', $promo->id)->withSuccess('Data berhasil diupdate');
     }

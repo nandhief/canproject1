@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Lelang;
+use App\Traits\Upload;
 use Illuminate\Http\Request;
 
 class LelangController extends Controller
 {
+    use Upload;
+    
     /**
      * Display a listing of the resource.
      *
@@ -47,6 +50,7 @@ class LelangController extends Controller
             'short_desc' => 'max:255',
             'description' => 'required',
         ]);
+        $request = $this->saveFile($request);
         $lelang = Lelang::create($request->all());
         return redirect()->route('lelang.show', $lelang->id)->withSuccess('Data berhasil disimpan');
     }
@@ -87,6 +91,7 @@ class LelangController extends Controller
             'short_desc' => 'max:255',
             'description' => 'required',
         ]);
+        $request = $this->saveFile($request);
         $lelang->update($request->all());
         return redirect()->route('lelang.show', $lelang->id)->withSuccess('Data berhasil diupdate');
     }

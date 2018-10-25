@@ -27,6 +27,16 @@
 								<span class="help-block">{{ $errors->first('name') }}</span>
 							@endif
 						</div>
+						<div class="form-group col-md-6 col-sm-6 {{ $errors->has('path_image') ? 'has-error' : '' }}">
+							<label for="path_image">Gambar *</label>
+							{{ Form::file('path_image', ['class' => 'form-control']) }}
+							@if ($errors->has('path_image'))
+								<span class="help-block">{{ $errors->first('path_image') }}</span>
+							@endif
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6">
+                            <div class="file"></div>
+                        </div>
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('short_desc') ? 'has-error' : '' }}">
 							<label for="short_desc">Short Description <span class="text-muted">(max 255 character)</span></label>
 							{{ Form::textarea('short_desc', old('short_desc'), ['class' => 'form-control', 'style' => 'min-width: 100%; width: 100%; max-width: 100%; height: 100px; min-height: 100px; max-height: 100px;']) }}
@@ -44,10 +54,10 @@
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('status') ? 'has-error' : '' }}">
 							<label for="status">Terbitkan</label>
 							<div class="radio">
-								<label>{{ Form::radio('status', '0') }}Draf</label>
+								<label><input type="radio" name="status" value="0" {{ $lelang->status ? '' : 'checked' }}> Draf</label>
 							</div>
 							<div class="radio">
-								<label>{{ Form::radio('status', '1') }}Terbit</label>
+								<label><input type="radio" name="status" value="1" {{ $lelang->status ? 'checked' : '' }}>Terbit</label>
 							</div>
 							@if ($errors->has('status'))
 								<span class="help-block">{{ $errors->first('status') }}</span>

@@ -27,6 +27,16 @@
 								<span class="help-block">{{ $errors->first('name') }}</span>
 							@endif
 						</div>
+						<div class="form-group col-md-6 col-sm-6 {{ $errors->has('path_image') ? 'has-error' : '' }}">
+							<label for="path_image">Gambar *</label>
+							{{ Form::file('path_image', ['class' => 'form-control']) }}
+							@if ($errors->has('path_image'))
+								<span class="help-block">{{ $errors->first('path_image') }}</span>
+							@endif
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6">
+                            <div class="file"></div>
+                        </div>
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('embeded') ? 'has-error' : '' }}">
                             <label for="embeded">Embeded Youtube </label>
                             <div class="input-group">
@@ -54,10 +64,10 @@
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('status') ? 'has-error' : '' }}">
                             <label for="status">Terbitkan</label>
 							<div class="radio">
-								<label>{{ Form::radio('status', '0') }}Draf</label>
+								<label><input type="radio" name="status" value="0" {{ $news->status ? '' : 'checked' }}> Draf</label>
 							</div>
 							<div class="radio">
-								<label>{{ Form::radio('status', '1', true) }}Terbit</label>
+								<label><input type="radio" name="status" value="1" {{ $news->status ? 'checked' : '' }}>Terbit</label>
 							</div>
 							@if ($errors->has('status'))
 								<span class="help-block">{{ $errors->first('status') }}</span>

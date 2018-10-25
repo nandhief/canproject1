@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\News;
+use App\Traits\Upload;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
+    use Upload;
+
     /**
      * Display a listing of the resource.
      *
@@ -47,6 +50,7 @@ class NewsController extends Controller
             'short_desc' => 'max:255',
             'description' => 'required',
         ]);
+        $request = $this->saveFile($request);
         $news = News::create($request->all());
         return redirect()->route('news.show', $news->id)->withSuccess('Data berhasil disimpan');
     }
@@ -87,6 +91,7 @@ class NewsController extends Controller
             'short_desc' => 'max:255',
             'description' => 'required',
         ]);
+        $request = $this->saveFile($request);
         $news->update($request->all());
         return redirect()->route('news.show', $news->id)->withSuccess('Data berhasil diupdate');
     }
