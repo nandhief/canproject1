@@ -4,10 +4,11 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'phone', 'password', 'api_token', 'status', 'activation'
     ];
 
     /**
@@ -24,6 +25,41 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'api_token'
     ];
+
+    public function setPasswordAttribute($value)
+    {
+        if ($value) $this->attributes['password'] = \Hash::needsRehash($value) ? \Hash::make($value) : $value;
+    }
+
+    public function getNameAttribute($value)
+    {
+        return ucwords($value);
+    }
+
+    public function getTokenAttribute()
+    {
+        return $this->api_token;
+    }
+
+    public function getUrlActivationAttribute()
+    {
+        return route('activation', $this->activation);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        dd($token);
+    }
+    
+    public function broker()
+    {
+        return $this->hasOne(Broker::class, 'user_id', 'id');
+    }
+    
+    public function customer()
+    {
+        return $this->hasOne(Customer::class, 'user_id', 'id');
+    }
 }
