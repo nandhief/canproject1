@@ -47,11 +47,6 @@ class User extends Authenticatable
     {
         return route('activation', $this->activation);
     }
-
-    public function sendPasswordResetNotification($token)
-    {
-        dd($token);
-    }
     
     public function broker()
     {
