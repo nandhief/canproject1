@@ -1,5 +1,8 @@
 <?php
 
+/* Set Time Indonesian */
+setlocale(LC_TIME, 'Indonesian');
+
 return [
 
     /*

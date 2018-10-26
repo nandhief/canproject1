@@ -15,7 +15,7 @@ trait Upload
 
         foreach ($request->all() as $key => $value) {
             if ($request->hasFile($key)) {
-                $filename = date('YmdHis') . $request->file($key)->getClientOriginalName();
+                $filename = date('YmdHmi_') . $request->file($key)->getClientOriginalName();
                 $request->file($key)->move($pathfile, $filename);
                 $finalRequest = new Request(array_merge($finalRequest->all(), [$key => $filename]));
             }
