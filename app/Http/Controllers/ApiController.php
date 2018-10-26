@@ -6,10 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use App\Mail\RegisterMail;
 use App\Mail\ResetMail;
-use App\News;
-use App\Promo;
-use App\Lelang;
-use App\Customer;
 use App\User;
 use App\Career;
 
@@ -37,7 +33,7 @@ class ApiController extends Controller
             \Mail::to($user->email, $user->name)->send(new RegisterMail($user));
             return json('Terima kasih sudah mendaftar, buka email anda untuk melakukan aktivasi akun');
         } else {
-            return json('Terjadi kesalahan saat mendaftar', 'error', 'error', 0);
+            return json('Terjadi kesalahan saat mendaftar', 'error', 0);
         }
     }
 
@@ -82,5 +78,28 @@ class ApiController extends Controller
             return json('Untuk reset password sudah kami kirimkan ke email ' . $request->email);
         }
         return json('Kami tidak dapat menemukan email ' . $request->email . ' didata kami, pastikan anda sudah pernah mendaftar', 'error', 0);
+    }
+
+    /**
+     * Apply for career
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function career(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:191',
+            'email' => 'required|max:191',
+            'phone' => 'required|numeric',
+            'posisi' => 'required|max:191',
+            'description' => 'required',
+            'resume' => 'required',
+        ]);
+        if ($request->hasFile('resume')) {
+            $filename = date('YmdHis_') . $request->resume->getClientOriginalName();
+            $request->resume->move('./storage/original', $filename);
+        }
+        $career = Career::create(array_merge($request->all(), ['resume' => $filename]));
+        return json('Terima Kasih lamarannya, mohon tunggu kabar baik dari kami');
     }
 }
