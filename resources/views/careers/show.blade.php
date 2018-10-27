@@ -59,7 +59,7 @@
                 @empty($career->keterangan)
                     <div class="box-footer">
                         <button class="btn btn-xs btn-primary btn-flat response"><i class="fa fa-comment"></i> TANGGAPI LAMARAN</button>
-                        <div class="row form-response" style="display: none;">
+                        <div class="row form-response" {!! session()->has('errors') ? '' : 'style="display: none;"' !!}>
                             <div class="col-md-12">
                                 <hr>
                                 <h4>TANGGAPI LAMARAN</h4>
