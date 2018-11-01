@@ -25,8 +25,8 @@ class Commodity extends Model
         });
     }
 
-    public function image()
+    public function getImageAttribute()
     {
-        return $this->morphMany(Image::class, 'imagetable');
+        return asset('storage/files/' . $this->path_image);
     }
 }

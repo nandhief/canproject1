@@ -24,4 +24,9 @@ class Layanan extends Model
             $model->slug = str_slug($model->name);
         });
     }
+
+    public function getImageAttribute()
+    {
+        return asset('storage/files/' . $this->path_image);
+    }
 }

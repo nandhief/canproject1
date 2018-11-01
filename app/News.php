@@ -24,4 +24,9 @@ class News extends Model
     {
         return ucwords($value);
     }
+
+    public function getImageAttribute()
+    {
+        return asset('storage/files/' . $this->path_image);
+    }
 }
