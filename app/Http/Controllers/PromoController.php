@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 
 class PromoController extends Controller
 {
+    use Upload;
+    
     /**
      * Display a listing of the resource.
      *
