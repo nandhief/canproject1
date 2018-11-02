@@ -81,7 +81,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.show', compact('product'));
+        return view('products.edit', compact('product'));
     }
 
     /**

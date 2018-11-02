@@ -18,7 +18,7 @@
 					<h3>Tambah Product {{ $category }}</h3>
 				</div>
 				<div class="box-body">
-                    {{ Form::open(['route' => 'promos.store']) }}
+                    {{ Form::open(['route' => 'products.store']) }}
                     {{ Form::hidden('category', $category) }}
 					<div class="row">
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('name') ? 'has-error' : '' }}">
@@ -55,7 +55,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-12 col-sm-12">
-							<a href="{{ route('promos.index') }}" class="btn btn-flat btn-success"><i class="fa fa-reply"></i> Kembali</a>
+							<a href="{{ route('products.index') }}" class="btn btn-flat btn-success"><i class="fa fa-reply"></i> Kembali</a>
 							<button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-save"></i> Simpan</button>
 						</div>
 					</div>

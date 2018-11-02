@@ -20,12 +20,12 @@
 				</div>
 				<div class="box-body">
 					<div class="table-responsive">
-						<table class="table table-hover tabler-bordered {{ count($dana) > 0 ? 'datatables':'' }}" style="width: 100%;">
+						<table class="table table-hover tabler-bordered {{ count($dana) > 0 ? 'dana':'' }}" style="width: 100%;">
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>NAMA</th>
-									<th>KONTEN</th>
+									<th>PRODUK DANA</th>
+									<th>KETERANGAN SINGKAT</th>
 									<th>PUBLISH</th>
 									<th data-orderable="false" data-searchable="false">&nbsp;</th>
 								</tr>
@@ -51,12 +51,12 @@
 				</div>
 				<div class="box-body">
 					<div class="table-responsive">
-						<table class="table table-hover tabler-bordered {{ count($kredit) > 0 ? 'datatables':'' }}" style="width: 100%;">
+						<table class="table table-hover tabler-bordered {{ count($kredit) > 0 ? 'kredit':'' }}" style="width: 100%;">
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>NAMA</th>
-									<th>KONTEN</th>
+									<th>PRODUK KREDIT</th>
+									<th>KETERANGAN SINGKAT</th>
 									<th>PUBLISH</th>
 									<th data-orderable="false" data-searchable="false">&nbsp;</th>
 								</tr>
@@ -91,7 +91,9 @@
 	<script>
 		$(document).ready(function () {
 			$('.dana').dataTable({
-				ajax: "{{ route('products.index') }}",
+				ajax: {
+                    dataSrc: "data_dana"
+                },
                 "deferRender": true,
                 columns: [
                 	{ data: 'id' },
@@ -117,7 +119,9 @@
                 ]
 			});
 			$('.kredit').dataTable({
-				ajax: "{{ route('products.index') }}",
+				ajax: {
+                    dataSrc: "data_kredit"
+                },
                 "deferRender": true,
                 columns: [
                 	{ data: 'id' },

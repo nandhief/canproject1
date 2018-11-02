@@ -1,12 +1,12 @@
 @extends('layouts.lte')
 
 @section('title')
-	Edit Promo
+	Edit Produk {{ ucwords($product->category) }}
 @endsection
 
 @section('description-header')
 	<h1>
-		Promo
+		Produk {{ ucwords($product->category) }}
 	</h1>
 @endsection
 
@@ -15,10 +15,11 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header">
-					<h3>Edit Promo</h3>
+					<h3>Edit Produk {{ ucwords($product->category) }}</h3>
 				</div>
 				<div class="box-body">
-					{{ Form::model($promo, ['route' => ['promos.update', $promo->id], 'method' => 'PUT']) }}
+					{{ Form::model($product, ['route' => ['products.update', $product->id], 'method' => 'PUT']) }}
+                    {{ Form::hidden('category', $product->category) }}
 					<div class="row">
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('name') ? 'has-error' : '' }}">
 							<label for="name">Nama *</label>
@@ -54,10 +55,10 @@
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('status') ? 'has-error' : '' }}">
 							<label for="status">Terbitkan</label>
 							<div class="radio">
-								<label><input type="radio" name="status" value="0" {{ $promo->status ? '' : 'checked' }}> Draf</label>
+								<label><input type="radio" name="status" value="0" {{ $product->status ? '' : 'checked' }}> Draf</label>
 							</div>
 							<div class="radio">
-								<label><input type="radio" name="status" value="1" {{ $promo->status ? 'checked' : '' }}>Terbit</label>
+								<label><input type="radio" name="status" value="1" {{ $product->status ? 'checked' : '' }}>Terbit</label>
 							</div>
 							@if ($errors->has('status'))
 								<span class="help-block">{{ $errors->first('status') }}</span>
@@ -66,7 +67,7 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-12 col-sm-12">
-							<a href="{{ route('promos.show', $promo->id) }}" class="btn btn-flat btn-success"><i class="fa fa-reply"></i> Kembali</a>
+							<a href="{{ route('products.show', $product->id) }}" class="btn btn-flat btn-success"><i class="fa fa-reply"></i> Kembali</a>
 							<button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-save"></i> Update</button>
 						</div>
 					</div>
