@@ -30,7 +30,13 @@ Route::middleware('guest')->group(function () {
     Route::resource('layanan', 'LayananController');
     Route::resource('commodities', 'CommodityController');
     Route::resource('products', 'ProductController');
-    Route::resource('careers', 'CareerController', ['except' => ['create', 'store']]);
+
+    /* Route careers */
+    Route::resource('careers', 'CareerController');
+    Route::get('careers/detail/{vacancy}', 'CareerController@detail')->name('careers.vacancy');
+    Route::get('careers/detail/{vacancy}/edit', 'CareerController@vacancyEdit')->name('careers.vacancy.edit');
+    Route::put('careers/detail/{vacancy}', 'CareerController@vacancyUpdate')->name('careers.vacancy.update');
+    Route::delete('careers/detail/{vacancy}/delete', 'CareerController@vacancyUpdate')->name('careers.vacancy.delete');
 });
 
 /**

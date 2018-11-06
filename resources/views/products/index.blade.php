@@ -96,11 +96,11 @@
                 },
                 "deferRender": true,
                 columns: [
-                	{ data: 'id' },
+                	{ data: 'no' },
                 	{
                 		data: null,
                 		render: function (data) {
-                			return '<a href="{{ url('') }}/' + data.slug + '" target="_blank">' + data.name + '</a>';
+                			return data.name;
                 		}
                 	},
                 	{ data: 'short_desc' },
@@ -124,11 +124,11 @@
                 },
                 "deferRender": true,
                 columns: [
-                	{ data: 'id' },
+                	{ data: 'no' },
                 	{
                 		data: null,
                 		render: function (data) {
-                			return '<a href="{{ url('') }}/' + data.slug + '" target="_blank">' + data.name + '</a>';
+                			return data.name;
                 		}
                 	},
                 	{ data: 'short_desc' },

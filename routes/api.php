@@ -22,6 +22,8 @@ Route::namespace('Api')->group(function () {
     Route::get('lelang/{lelang}', 'InfoController@lelang');
     Route::get('commodity', 'InfoController@listCommodity');
     Route::get('commodity/{commodity}', 'InfoController@commodity');
+    Route::get('vacancy', 'InfoController@listVacancy');
+    Route::get('vacancy/{vacancy}', 'InfoController@vacancy');
     Route::get('valas', 'InfoController@valas');
 });
 Route::post('career', 'ApiController@career');

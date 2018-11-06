@@ -1,13 +1,13 @@
 @extends('layouts.lte')
 
 @section('title')
-	Detail Commodity
+	Detail Pelamar Karir
 @endsection
 
 @section('content-header')
 	<h1>
-		Commodity
-		<small>Detail Commodity {{ $career->name }}</small>
+		Pelamar Karir
+		<small>Detail Pelamar Karir {{ $career->name }}</small>
 	</h1>
 @endsection
 
@@ -16,7 +16,7 @@
 		<div class="col-xs-12">
 			<div class="box box-primary">
 				<div class="box-header">
-					<h3>Detail Commodity {{ $career->name }}</h3>
+					<h3>Detail Pelamar Karir {{ $career->name }}</h3>
 				</div>
 				<div class="box-body">
 					<div class="table-responsive">

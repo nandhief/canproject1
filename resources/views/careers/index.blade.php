@@ -16,11 +16,40 @@
 		<div class="col-xs-12">
 			<div class="box box-primary">
 				<div class="box-header">
+					Daftar Lowongan Karir
+                    <a href="{{ route('careers.create') }}" class="btn btn-primary btn-flat btn-sm pull-right"><i class="fa fa-plus"></i> Tambah Lowongan</a>
+				</div>
+				<div class="box-body">
+					<div class="table-responsive">
+						<table class="table table-hover tabler-bordered {{ count($vacancies) > 0 ? 'vacancies':'' }}" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>LOWONGAN</th>
+									<th>LOKASI</th>
+									<th>JENIS</th>
+									<th>BERAKHIR</th>
+									<th data-orderable="false" data-searchable="false">&nbsp;</th>
+								</tr>
+							</thead>
+							<tbody>
+								@if (count($careers) < 1)
+									<tr>
+										<td colspan="10">Tidak Ada Data</td>
+									</tr>
+								@endif
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="box box-primary">
+				<div class="box-header">
 					Daftar Pelamar Karir
 				</div>
 				<div class="box-body">
 					<div class="table-responsive">
-						<table class="table table-hover tabler-bordered {{ count($careers) > 0 ? 'datatables':'' }}" style="width: 100%;">
+						<table class="table table-hover tabler-bordered {{ count($careers) > 0 ? 'careers':'' }}" style="width: 100%;">
 							<thead>
 								<tr>
 									<th>#</th>
@@ -45,44 +74,6 @@
 			</div>
 		</div>
     </div>
-    <div class="modal" id="show" tabindex="-1" role="dialog" aria-labelledby="modalShow" data-widget="modal-refresh">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Default Modal</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="">
-                        <div class="form-group">
-                            <label for=""></label>
-                            <input type="text" name="name" id="name" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for=""></label>
-                            <input type="text" name="email" id="email" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for=""></label>
-                            <input type="text" name="phone" id="phone" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for=""></label>
-                            <input type="text" name="status" id="status" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for=""></label>
-                            <input type="text" name="keterangan" id="keterangan" class="form-control">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @section('css_up')
@@ -101,8 +92,29 @@
 					$('#phone').val(response.phone);
 				});
             }
-			$('.datatables').dataTable({
-				ajax: "{{ route('careers.index') }}",
+			$('.vacancies').dataTable({
+				ajax: {
+					dataSrc: 'data_vacancies'
+				},
+                "deferRender": true,
+                columns: [
+                	{ data: 'id' },
+                	{ data: 'name' },
+                	{ data: 'lokasi' },
+                	{ data: 'jenis' },
+                	{ data: 'expired' },
+                    {
+                        data: null,
+                        render: function (data) {
+                            return '<a href="{{ url('careers/detail') }}/' + data.id + '" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Lihat</a> <a href="{{ url('careers/detail') }}/' + data.id + '/edit" class="btn btn-xs btn-flat btn-info"><i class="fa fa-edit"></i> Edit</a> <form method="POST" action="{{ url('careers/detail') }}/' + data.id + '/delete" accept-charset="UTF-8" style="display: inline-block;"><input name="_method" type="hidden" value="DELETE"><input name="_token" type="hidden" value="{{ csrf_token()  }}"> <button type="submit" class="btn btn-xs btn-flat btn-danger" onclick="return confirm(\'Anda Yakin Menghapus Data ' + data.name + '\')"><i class="fa fa-trash"></i> Hapus</button> </form>';
+                        }
+                    }
+                ]
+			});
+			$('.careers').dataTable({
+				ajax: {
+					dataSrc: 'data_careers'
+				},
                 "deferRender": true,
                 columns: [
                 	{ data: 'id' },

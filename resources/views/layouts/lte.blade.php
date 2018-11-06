@@ -47,25 +47,6 @@
 	<script src="{{ url('/') }}/plugins/fastclick/fastclick.js"></script>
 	<script src="{{ url('/') }}/lte/js/app.min.js"></script>
 	<script src="{{ url('/') }}/lte/js/settings.js"></script>
-	<script type="text/javascript">
-
-      function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                $('#showgambar').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $("#inputgambar").change(function () {
-        readURL(this);
-    });
-
-	</script>
 	@yield('js')
 </body>
 </html>
