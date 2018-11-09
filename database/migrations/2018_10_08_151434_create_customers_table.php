@@ -18,8 +18,8 @@ class CreateCustomersTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('alamat');
             $table->string('foto_ktp');
-            $table->boolean('tabungan')->default(false);
-            $table->boolean('kredit')->default(false);
+            $table->boolean('tabungan_status')->default(false);
+            $table->boolean('credit_status')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
