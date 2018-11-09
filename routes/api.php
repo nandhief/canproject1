@@ -28,6 +28,7 @@ Route::namespace('Api')->group(function () {
 });
 Route::post('career', 'ApiController@career');
 Route::post('login', 'ApiController@login');
+Route::post('user/update', 'ApiController@updateUser')->middleware('auth:api');
 Route::post('register', 'ApiController@register');
 Route::post('forgot', 'ApiController@forgot');
 Route::post('credit', 'ApiController@credit')->middleware('auth:api');

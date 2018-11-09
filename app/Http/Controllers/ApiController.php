@@ -85,6 +85,18 @@ class ApiController extends Controller
     }
 
     /**
+     * Update User
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update_user(Request $request)
+    {
+        $user = User::whereEmail(auth()->user()->email)->first();
+        $user->update($request->except('email'));
+        return json('Update user ' . $user->name . ' Berhasil');
+    }
+
+    /**
      * Apply for career
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
