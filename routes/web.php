@@ -18,6 +18,8 @@ Auth::routes();
  */
 Route::middleware('guest')->group(function () {
     Route::get('/', 'SettingController@dashboard')->name('dashboard');
+    Route::get('slider', 'SettingController@slider')->name('slide.index');
+    Route::post('slider', 'SettingController@storeSlide')->name('slide.store');
     Route::resource('settings', 'SettingController', [
         'except' => [
             'create', 'store', 'destroy',
@@ -37,6 +39,12 @@ Route::middleware('guest')->group(function () {
     Route::get('careers/detail/{vacancy}/edit', 'CareerController@vacancyEdit')->name('careers.vacancy.edit');
     Route::put('careers/detail/{vacancy}', 'CareerController@vacancyUpdate')->name('careers.vacancy.update');
     Route::delete('careers/detail/{vacancy}/delete', 'CareerController@vacancyUpdate')->name('careers.vacancy.delete');
+
+    /* Route credits */
+    Route::resource('credits', 'CreditController', ['except' => ['create', 'store']]);
+
+    /* Route tabungans */
+    Route::resource('tabungan', 'TabunganController', ['except' => ['create', 'store']]);
 });
 
 /**
