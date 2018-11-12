@@ -8,6 +8,7 @@ use App\News;
 use App\Promo;
 use App\Lelang;
 use App\Vacancy;
+use App\Slide;
 
 class InfoController extends Controller
 {
@@ -19,7 +20,8 @@ class InfoController extends Controller
         $news = News::whereHighlight(true)->limit(5)->get()->makeHidden(['slug', 'description', 'hightligh', 'status', 'order', 'created_at', 'updated_at', 'deleted_at']);
         $promo = Promo::whereHighlight(true)->limit(5)->get()->makeHidden(['slug', 'description', 'hightligh', 'status', 'order', 'created_at', 'updated_at', 'deleted_at']);
         $lelang = Lelang::whereHighlight(true)->limit(5)->get()->makeHidden(['slug', 'description', 'hightligh', 'status', 'order', 'created_at', 'updated_at', 'deleted_at']);
-        return json(compact('news', 'promo', 'lelang'));
+        $slider = Slide::get();
+        return json(compact('news', 'promo', 'lelang', 'slide'));
     }
 
     /**
@@ -56,7 +58,7 @@ class InfoController extends Controller
      * Response detail promo
      * @param $id
      */
-    public function promo(Promo $id)
+    public function promo($id)
     {
         $promo = Promo::find($id);
         if ($promo) {
@@ -128,6 +130,18 @@ class InfoController extends Controller
         $vacancy = Vacancy::where('expired', '>', now())->find($id);
         if ($vacancy) {
             return json($vacancy->makeHidden(['created_at', 'updated_at', 'deleted_at']));
+        }
+        return json([], 'error', 1);
+    }
+
+    /**
+     * Response Slider
+     */
+    public function slider()
+    {
+        $slider = Slide::get();
+        if ($slider) {
+            return json($slider->makeHidden(['created_at', 'updated_at', 'deleted_at']));
         }
         return json([], 'error', 1);
     }
