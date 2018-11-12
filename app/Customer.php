@@ -10,11 +10,12 @@ class Customer extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'user_id', 'alamat', 'no_hp', 'foto_ktp', 'tabungan', 'kredit'
+        'user_id', 'alamat', 'no_hp', 'foto_ktp', 'tabungan_status', 'credit_status', 'jenis_kelamin', 'tgl_lahir'
     ];
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at'
     ];
+    protected $appends = ['ktp'];
 
     public static function boot()
     {
@@ -24,8 +25,33 @@ class Customer extends Model
         });
     }
 
+    public function setTglLahirAttribute($value)
+    {
+        $this->attributes['tgl_lahir'] = now()->parse($value)->format('Y-m-d');
+    }
+
+    public function getKtpAttribute()
+    {
+        return empty($this->foto_ktp) ? null : asset('storage/original/' . $this->foto_ktp);
+    }
+
+    public function getTglLahirAttribute()
+    {
+        return empty($this->attributes['tgl_lahir']) ? null : now()->parse($this->attributes['tgl_lahir'])->format('d-m-Y');
+    }
+
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class);
+    }
+
+    public function credit()
+    {
+        return $this->hasOne(Credit::class);
+    }
+
+    public function tabungan()
+    {
+        return $this->hasOne(Tabungan::class);
     }
 }

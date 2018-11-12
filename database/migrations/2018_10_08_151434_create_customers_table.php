@@ -17,6 +17,8 @@ class CreateCustomersTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('alamat');
+            $table->string('jenis_kelamin');
+            $table->string('tgl_lahir');
             $table->string('foto_ktp');
             $table->boolean('tabungan_status')->default(false);
             $table->boolean('credit_status')->default(false);

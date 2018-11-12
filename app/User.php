@@ -28,6 +28,13 @@ class User extends Authenticatable
         'password', 'remember_token', 'api_token'
     ];
 
+    /**
+     * The attributes that should be added in json
+     * 
+     * @var array
+     */
+    protected $appends = ['foto'];
+
     public function setPasswordAttribute($value)
     {
         if ($value) $this->attributes['password'] = \Hash::needsRehash($value) ? \Hash::make($value) : $value;
@@ -46,6 +53,11 @@ class User extends Authenticatable
     public function getUrlActivationAttribute()
     {
         return route('activation', $this->activation);
+    }
+
+    public function getFotoAttribute()
+    {
+        return empty($this->path_foto) ? null : asset('storage/files/' . $this->path_foto);
     }
     
     public function broker()
