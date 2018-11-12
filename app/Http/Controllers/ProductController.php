@@ -53,8 +53,8 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
-            'short_desc' => 'max:255',
+            'name' => 'required|max:191',
+            'short_desc' => 'required',
             'description' => 'required',
         ]);
         $request = $this->saveFile($request);
@@ -94,8 +94,8 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
-            'name' => 'required|max:255',
-            'short_desc' => 'max:255',
+            'name' => 'required|max:191',
+            'short_desc' => 'required',
             'description' => 'required',
         ]);
         $request = $this->saveFile($request);

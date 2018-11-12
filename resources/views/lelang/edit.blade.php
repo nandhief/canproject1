@@ -18,7 +18,7 @@
 					<h3>Edit Lelang</h3>
 				</div>
 				<div class="box-body">
-					{{ Form::model($lelang, ['route' => ['lelang.update', $lelang->id], 'method' => 'PUT']) }}
+					{{ Form::model($lelang, ['route' => ['lelang.update', $lelang->id], 'method' => 'PUT', 'files' => true]) }}
 					<div class="row">
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('name') ? 'has-error' : '' }}">
 							<label for="name">Nama *</label>

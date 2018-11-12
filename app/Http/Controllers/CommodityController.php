@@ -47,7 +47,7 @@ class CommodityController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
-            'short_desc' => 'max:255',
+            'short_desc' => 'required',
             'description' => 'required',
         ]);
         $request = $this->saveFile($request);
@@ -88,7 +88,7 @@ class CommodityController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
-            'short_desc' => 'max:255',
+            'short_desc' => 'required',
             'description' => 'required',
         ]);
         $request = $this->saveFile($request);

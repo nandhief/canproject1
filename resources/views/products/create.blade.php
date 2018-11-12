@@ -18,7 +18,7 @@
 					<h3>Tambah Product {{ $category }}</h3>
 				</div>
 				<div class="box-body">
-                    {{ Form::open(['route' => 'products.store']) }}
+                    {{ Form::open(['route' => 'products.store', 'files' => true]) }}
                     {{ Form::hidden('category', $category) }}
 					<div class="row">
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('name') ? 'has-error' : '' }}">

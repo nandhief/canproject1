@@ -18,7 +18,7 @@
 					<h3>Edit Commodity</h3>
 				</div>
 				<div class="box-body">
-					{{ Form::model($commodity, ['route' => ['commodities.update', $commodity->id], 'method' => 'PUT']) }}
+					{{ Form::model($commodity, ['route' => ['commodities.update', $commodity->id], 'method' => 'PUT', 'files' => true]) }}
 					<div class="row">
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('name') ? 'has-error' : '' }}">
 							<label for="name">Nama *</label>
