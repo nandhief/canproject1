@@ -10,8 +10,18 @@ class Career extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'posisi', 'description', 'path_resume', 'status', 'keterangan', 'reply'
+        'vacancy_id', 'user_id', 'name', 'email', 'phone', 'posisi', 'description', 'path_resume', 'status', 'keterangan', 'reply'
     ];
 
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
+
+    public function vacancy()
+    {
+        return $this->belongsTo(Vacancy::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

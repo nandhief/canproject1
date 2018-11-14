@@ -54,4 +54,9 @@ class Customer extends Model
     {
         return $this->hasOne(Tabungan::class);
     }
+
+    public function careers()
+    {
+        return $this->hasMany(Career::class);
+    }
 }

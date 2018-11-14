@@ -13,7 +13,7 @@ class Vacancy extends Model
         'name', 'lokasi', 'jenis', 'kualifikasi', 'fasilitas', 'expired',
     ];
     protected $dates = [
-        'deleted_at', 'created_at', 'updated_at', 'expired',
+        'deleted_at', 'updated_at',
     ];
 
     public function getNameAttribute($value)
@@ -24,6 +24,26 @@ class Vacancy extends Model
     public function getJenisAttribute($value)
     {
         return ucwords(str_replace('-', ' ', $value));
+    }
+
+    public function getKualifikasiAttribute($value)
+    {
+        return '<p>' . str_replace(';', '<br>', $value) . '</p>';
+    }
+
+    public function getKuaAttribute()
+    {
+        return str_replace('</p>', '', str_replace('<p>', '', str_replace('<br>', ';', $this->kualifikasi)));
+    }
+
+    public function getFasilitasAttribute($value)
+    {
+        return '<p>' . str_replace(';', '<br>', $value) . '</p>';
+    }
+
+    public function getFasAttribute($value)
+    {
+        return str_replace('</p>', '', str_replace('<p>', '', str_replace('<br>', ';', $this->fasilitas)));
     }
 
     public function careers()
