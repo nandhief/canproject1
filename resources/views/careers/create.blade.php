@@ -58,14 +58,14 @@
 						</div>
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('kualifikasi') ? 'has-error' : '' }}">
 							<label for="kualifikasi">Kualifikasi *</label>
-							{{ Form::textarea('kualifikasi', old('kualifikasi'), ['class' => 'form-control text-editor']) }}
+							{{ Form::textarea('kualifikasi', old('kualifikasi'), ['class' => 'form-control']) }}
 							@if ($errors->has('kualifikasi'))
 								<span class="help-block">{{ $errors->first('kualifikasi') }}</span>
 							@endif
 						</div>
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('fasilitas') ? 'has-error' : '' }}">
 							<label for="fasilitas">Fasilitas *</label>
-							{{ Form::textarea('fasilitas', old('fasilitas'), ['class' => 'form-control text-editor']) }}
+							{{ Form::textarea('fasilitas', old('fasilitas'), ['class' => 'form-control']) }}
 							@if ($errors->has('fasilitas'))
 								<span class="help-block">{{ $errors->first('fasilitas') }}</span>
 							@endif

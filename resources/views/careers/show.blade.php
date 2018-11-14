@@ -29,7 +29,7 @@
                             </tr>
 							<tr>
 								<th>POSISI</th>
-								<td>{{ $career->posisi }}</td>
+								<td>{{ $career->vacancy->name }}</td>
 								<th>PHONE</th>
 								<td>{{ $career->phone }}</td>
                             </tr>
