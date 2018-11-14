@@ -26,6 +26,14 @@
 								<td>{{ $promo->name }}</td>
 							</tr>
 							<tr>
+								<th>GAMBAR</th>
+								<td><img src="{!! $promo->image !!}" alt="{{ $promo->name }}" class="img-responsive"></td>
+							</tr>
+							<tr>
+								<th>ICON</th>
+								<td><img src="{!! $promo->icon !!}" alt="{{ $promo->name }}" class="img-responsive"></td>
+							</tr>
+							<tr>
 								<th>Terbit</th>
 								<td>
 									{!! $promo->status ? '<span class="label label-success">Terbit</span>' : '<span class="label label-warning">Draf</span>' !!}

@@ -26,6 +26,14 @@
 								<td>{{ $product->name }}</td>
 							</tr>
 							<tr>
+								<th>GAMBAR</th>
+								<td><img src="{!! $product->image !!}" alt="{{ $product->name }}" class="img-responsive"></td>
+							</tr>
+							<tr>
+								<th>ICON</th>
+								<td><img src="{!! $product->icon !!}" alt="{{ $product->name }}" class="img-responsive"></td>
+							</tr>
+							<tr>
 								<th>Terbit</th>
 								<td>
 									{!! $product->status ? '<span class="label label-success">Terbit</span>' : '<span class="label label-warning">Draf</span>' !!}

@@ -34,6 +34,10 @@
                             </tr>
                             @endif
 							<tr>
+								<th>GAMBAR</th>
+								<td><img src="{!! $layanan->image !!}" alt="{{ $layanan->name }}" class="img-responsive"></td>
+							</tr>
+							<tr>
 								<th>Terbit</th>
 								<td>
 									{!! $layanan->status ? '<span class="label label-success">Terbit</span>' : '<span class="label label-warning">Draf</span>' !!}

@@ -32,6 +32,14 @@
 								</td>
 							</tr>
 							<tr>
+								<th>GAMBAR</th>
+								<td><img src="{!! $lelang->image !!}" alt="{{ $lelang->name }}" class="img-responsive"></td>
+							</tr>
+							<tr>
+								<th>ICON</th>
+								<td><img src="{!! $lelang->icon !!}" alt="{{ $lelang->name }}" class="img-responsive"></td>
+							</tr>
+							<tr>
 								<th>Short Description</th>
 								<td>{{ $lelang->short_desc }}</td>
 							</tr>

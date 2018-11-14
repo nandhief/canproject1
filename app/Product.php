@@ -10,12 +10,12 @@ class Product extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'category', 'name', 'slug', 'path_image', 'short_desc', 'description', 'status', 'hightlight', 'order',
+        'category', 'name', 'slug', 'path_image', 'icon_image', 'short_desc', 'description', 'status', 'hightlight', 'order',
     ];
     protected $dates = [
         'deleted_at', 'created_at', 'updated_at'
     ];
-    protected $appends = ['image'];
+    protected $appends = ['image', 'icon'];
 
     public static function boot()
     {
@@ -33,5 +33,10 @@ class Product extends Model
     public function getImageAttribute()
     {
         return empty($this->path_image) ? null : asset('storage/files/' . $this->path_image);
+    }
+
+    public function getIconAttribute()
+    {
+        return empty($this->icon_image) ? null : asset('storage/files/' . $this->icon_image);
     }
 }

@@ -59,12 +59,7 @@
                 "deferRender": true,
                 columns: [
                 	{ data: 'id' },
-                	{
-                		data: null,
-                		render: function (data) {
-                			return '<a href="{{ url('') }}/' + data.slug + '" target="_blank">' + data.name + '</a>';
-                		}
-                	},
+                	{ data: 'name' },
                 	{ data: 'short_desc' },
                 	{
                 		data: null,

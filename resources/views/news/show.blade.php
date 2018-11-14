@@ -34,6 +34,14 @@
                             </tr>
                             @endif
 							<tr>
+								<th>GAMBAR</th>
+								<td><img src="{!! $news->image !!}" alt="{{ $news->name }}" class="img-responsive"></td>
+							</tr>
+							<tr>
+								<th>ICON</th>
+								<td><img src="{!! $news->icon !!}" alt="{{ $news->name }}" class="img-responsive"></td>
+							</tr>
+							<tr>
 								<th>Terbit</th>
 								<td>
 									{!! $news->status ? '<span class="label label-success">Terbit</span>' : '<span class="label label-warning">Draf</span>' !!}

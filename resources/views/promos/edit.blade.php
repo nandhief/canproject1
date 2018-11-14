@@ -26,7 +26,9 @@
 							@if ($errors->has('name'))
 								<span class="help-block">{{ $errors->first('name') }}</span>
 							@endif
-						</div>
+                        </div>
+                    </div>
+                    <div class="row">
 						<div class="form-group col-md-6 col-sm-6 {{ $errors->has('path_image') ? 'has-error' : '' }}">
 							<label for="path_image">Gambar *</label>
 							{{ Form::file('path_image', ['class' => 'form-control']) }}
@@ -35,8 +37,22 @@
 							@endif
                         </div>
                         <div class="form-group col-md-6 col-sm-6">
-                            <div class="file"></div>
+                            <img src="{{ $promo->image }}" alt="" class="img-responsive path_image">
                         </div>
+                    </div>
+                    <div class="row">
+						<div class="form-group col-md-6 col-sm-6 {{ $errors->has('icon_image') ? 'has-error' : '' }}">
+							<label for="icon_image">Icon *</label>
+							{{ Form::file('icon_image', ['class' => 'form-control']) }}
+							@if ($errors->has('icon_image'))
+								<span class="help-block">{{ $errors->first('icon_image') }}</span>
+							@endif
+                        </div>
+                        <div class="form-group col-md-6 col-sm-6">
+                            <img src="{{ $promo->icon }}" alt="" class="img-responsive icon_image">
+                        </div>
+                    </div>
+                    <div class="row">
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('short_desc') ? 'has-error' : '' }}">
 							<label for="short_desc">Short Description <span class="text-muted">(max 255 character)</span></label>
 							{{ Form::textarea('short_desc', old('short_desc'), ['class' => 'form-control', 'style' => 'min-width: 100%; width: 100%; max-width: 100%; height: 100px; min-height: 100px; max-height: 100px;']) }}
@@ -81,6 +97,22 @@
     <script src="{{ asset('plugins/tinymce/tinymce.min.js') }}"></script>
     <script>
         $(document).ready(function() {
+            var readURL = function (input, target) {
+                console.log(input[0].files[0])
+                if (input[0].files && input[0].files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        target.attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input[0].files[0]);
+                }
+            }
+            $('input[name="path_image"]').change(function () {
+                readURL($(this), $('.path_image'))
+            })
+            $('input[name="icon_image"]').change(function () {
+                readURL($(this), $('.icon_image'))
+            })
             tinymce.init({
                 selector: '.text-editor',
 				statusbar: false,

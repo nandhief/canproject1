@@ -11,6 +11,7 @@ class Valas extends Model
 
     protected $fillable = ['name', 'short_desc', 'description', 'status', 'path_image'];
     protected $dates = ['deleted_at'];
+    protected $appends = ['image'];
     
     public static function boot()
     {
