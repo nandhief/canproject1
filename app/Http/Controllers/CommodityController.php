@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Commodity;
 use Illuminate\Http\Request;
-use App\Traits\Upload;
 
 class CommodityController extends Controller
 {
-    use Upload;
     
     /**
      * Display a listing of the resource.
@@ -17,6 +15,7 @@ class CommodityController extends Controller
      */
     public function index()
     {
+        $data = [];
         $commodities = Commodity::get();
         if (request()->ajax()) {
             foreach ($commodities as $key => $value) {
@@ -28,16 +27,6 @@ class CommodityController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('commodities.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -46,35 +35,13 @@ class CommodityController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
-            'short_desc' => 'required',
-            'description' => 'required',
+            'name' => 'required',
+            'symbol' => 'required',
+            'buy' => 'required',
+            'sell' => 'required',
         ]);
-        $request = $this->saveFile($request);
         $commoditi = Commodity::create($request->all());
-        return redirect()->route('commodities.show', $commoditi->id)->withSuccess('Data berhasil disimpan');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Commodity  $commodity
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Commodity $commodity)
-    {
-        return view('commodities.show', compact('commodity'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Commodity  $commodity
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Commodity $commodity)
-    {
-        return view('commodities.edit', compact('commodity'));
+        return response()->json(['success' => 'Data ' . $commoditi->name . ' berhasil disimpan']);
     }
 
     /**
@@ -87,13 +54,13 @@ class CommodityController extends Controller
     public function update(Request $request, Commodity $commodity)
     {
         $request->validate([
-            'name' => 'required|max:255',
-            'short_desc' => 'required',
-            'description' => 'required',
+            'name' => 'required',
+            'symbol' => 'required',
+            'buy' => 'required',
+            'sell' => 'required',
         ]);
-        $request = $this->saveFile($request);
         $commodity->update($request->all());
-        return redirect()->route('commodities.show', $commodity->id)->withSuccess('Data berhasil diupdate');
+        return response()->json(['success' => 'Data ' . $commodity->name . ' berhasil diupdate']);
     }
 
     /**

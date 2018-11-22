@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Valas;
 use Illuminate\Http\Request;
-use App\Traits\Upload;
 
 class ValasController extends Controller
 {
-    use Upload;
     
     /**
      * Display a listing of the resource.
@@ -28,16 +26,6 @@ class ValasController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('valas.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -47,36 +35,12 @@ class ValasController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'short_desc' => 'required',
-            'description' => 'required',
+            'symbol' => 'required',
+            'buy' => 'required',
+            'sell' => 'required',
         ]);
-        $request = $this->saveFile($request);
         $valas = Valas::create($request->all());
-        return redirect()->route('valas.show', $valas->id)->withSuccess('Data berhasil disimpan');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  Int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $valas = Valas::find($id);
-        return view('valas.show', compact('valas'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $valas = Valas::find($id);
-        return view('valas.edit', compact('valas'));
+        return response()->json(['success' => 'Data ' . $valas->name . ' berhasil disimpan']);
     }
 
     /**
@@ -90,13 +54,13 @@ class ValasController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'short_desc' => 'required',
-            'description' => 'required',
+            'symbol' => 'required',
+            'buy' => 'required',
+            'sell' => 'required',
         ]);
-        $request = $this->saveFile($request);
         $valas = Valas::find($id);
         $valas->update($request->all());
-        return redirect()->route('valas.show', $valas->id)->withSuccess('Data berhasil diupdate');
+        return response()->json(['success' => 'Data ' . $valas->name . ' berhasil diupdate']);
     }
 
     /**

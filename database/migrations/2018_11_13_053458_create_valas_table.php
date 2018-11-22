@@ -16,16 +16,12 @@ class CreateValasTable extends Migration
         Schema::create('valas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('slug');
-            $table->string('embeded')->nullable();
-            $table->string('path_image')->nullable()->default('valas.jpg');
-            $table->text('short_desc')->nullable();
-            $table->text('description')->nullable();
-            $table->tinyInteger('status')->default(false);
-            $table->tinyInteger('highlight')->default(false);
-            $table->integer('order')->nullable();
+            $table->string('symbol');
+            $table->integer('buy');
+            $table->integer('sell');
+            $table->integer('old_buy');
+            $table->integer('old_sell');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

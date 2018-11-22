@@ -7,31 +7,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Commodity extends Model
 {
-    use SoftDeletes;
+    protected $fillable = ['name', 'symbol', 'buy', 'sell'];
+    protected $appends = ['beli', 'jual'];
     
-    protected $fillable = [
-        'name', 'slug', 'embeded', 'path_image', 'short_desc', 'description', 'status', 'highlight', 'order'
-    ];
-    protected $dates = [
-        'created_at', 'updated_at', 'deleted_at'
-    ];
-    protected $appends = ['image'];
-
-    public static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->slug = str_slug($model->name);
-        });
-    }
-
     public function getNameAttribute($value)
     {
         return ucwords($value);
     }
-
-    public function getImageAttribute()
+    
+    public function getSymbolAttribute($value)
     {
-        return empty($this->path_image) ? null : asset('storage/files/' . $this->path_image);
+        return strtoupper($value);
+    }
+
+    public function getBeliAttribute()
+    {
+        return number_format($this->buy, 2, ',', '.');
+    }
+
+    public function getJualAttribute()
+    {
+        return number_format($this->sell, 2, ',', '.');
     }
 }

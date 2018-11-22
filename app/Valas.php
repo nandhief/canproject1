@@ -3,31 +3,29 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Valas extends Model
 {
-    use SoftDeletes;
-
-    protected $fillable = ['name', 'short_desc', 'description', 'status', 'path_image'];
-    protected $dates = ['deleted_at'];
-    protected $appends = ['image'];
-    
-    public static function boot()
-    {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->slug = str_slug($model->name);
-        });
-    }
+    protected $fillable = ['name', 'symbol', 'buy', 'sell'];
+    protected $appends = ['beli', 'jual'];
     
     public function getNameAttribute($value)
     {
         return ucwords($value);
     }
-
-    public function getImageAttribute()
+    
+    public function getSymbolAttribute($value)
     {
-        return empty($this->path_image) ? null : asset('storage/files/' . $this->path_image);
+        return strtoupper($value);
+    }
+
+    public function getBeliAttribute()
+    {
+        return number_format($this->buy, 2, ',', '.');
+    }
+
+    public function getJualAttribute()
+    {
+        return number_format($this->sell, 2, ',', '.');
     }
 }
