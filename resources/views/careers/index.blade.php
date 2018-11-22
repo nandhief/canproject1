@@ -21,7 +21,7 @@
 				</div>
 				<div class="box-body">
 					<div class="table-responsive">
-						<table class="table table-hover tabler-bordered {{ count($vacancies) > 0 ? 'vacancies':'' }}" style="width: 100%;">
+						<table class="table table-hover tabler-bordered vacancies" style="width: 100%;">
 							<thead>
 								<tr>
 									<th>#</th>
@@ -33,11 +33,6 @@
 								</tr>
 							</thead>
 							<tbody>
-								@if (count($careers) < 1)
-									<tr>
-										<td colspan="10">Tidak Ada Data</td>
-									</tr>
-								@endif
 							</tbody>
 						</table>
 					</div>
@@ -49,7 +44,7 @@
 				</div>
 				<div class="box-body">
 					<div class="table-responsive">
-						<table class="table table-hover tabler-bordered {{ count($careers) > 0 ? 'careers':'' }}" style="width: 100%;">
+						<table class="table table-hover tabler-bordered careers" style="width: 100%;">
 							<thead>
 								<tr>
 									<th>#</th>
@@ -62,11 +57,6 @@
 								</tr>
 							</thead>
 							<tbody>
-								@if (count($careers) < 1)
-									<tr>
-										<td colspan="10">Tidak Ada Data</td>
-									</tr>
-								@endif
 							</tbody>
 						</table>
 					</div>
@@ -85,13 +75,6 @@
 	<script src="{{ asset('plugins') }}/datatables/dataTables.yajra.min.js"></script>
 	<script>
 		$(document).ready(function () {
-            window.show = function show(data) {
-				$.get('{{ route('careers.index') }}/' + data, function (response) {
-					$('#name').val(response.name);
-					$('#email').val(response.email);
-					$('#phone').val(response.phone);
-				});
-            }
 			$('.vacancies').dataTable({
 				ajax: {
 					dataSrc: 'data_vacancies'
@@ -126,7 +109,7 @@
                 		}
                 	},
                 	{ data: 'phone' },
-                	{ data: 'posisi' },
+                	{ data: 'vacancy.name' },
                 	{
                 		data: null,
                 		render: function (data) {

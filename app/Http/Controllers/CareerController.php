@@ -11,6 +11,8 @@ class CareerController extends Controller
 {
     public function index()
     {
+        $data_careers = [];
+        $data_vacancies = [];
         $careers = Career::with('vacancy')->get();
         $vacancies = Vacancy::get();
         if (request()->ajax()) {
