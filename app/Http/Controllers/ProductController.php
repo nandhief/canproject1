@@ -17,8 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $dana = Product::whereCategory('dana')->get();
-        $kredit = Product::whereCategory('kredit')->get();
+        $dana = Product::whereCategory('dana')->orderBy('id', 'desc')->get();
+        $kredit = Product::whereCategory('kredit')->orderBy('id', 'desc')->get();
         if (request()->ajax()) {
             foreach ($dana as $key => $value) {
                 $data_dana[] = collect($value)->prepend($key+1, 'no');

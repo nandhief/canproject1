@@ -17,7 +17,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::get();
+        $news = News::orderBy('id', 'desc')->get();
         if (request()->ajax()) {
             foreach ($news as $key => $value) {
                 $data[] = collect($value)->prepend($key+1, 'no');

@@ -40,7 +40,7 @@ return [
     'fontSize' => 48,
 
     // convert initial letter in uppercase
-    'uppercase' => false,
+    'uppercase' => true,
 
     // Fonts used to render text.
     // If contains more than one fonts, randomly selected based on name supplied
@@ -77,6 +77,6 @@ return [
         // 'foreground' (same as foreground color)
         // 'background' (same as background color)
         // or any valid hex ('#aabbcc')
-        'color' => 'foreground',
+        'color' => 'background',
     ],
 ];

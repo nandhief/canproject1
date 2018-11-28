@@ -14,6 +14,8 @@ class UserController extends Controller
      */
     public function index()
     {
+        $databrokers = [];
+        $datacustomers = [];
         $brokers = User::with('broker')->has('broker')->get();
         $customers = User::with('customer')->has('customer')->get();
         if (request()->ajax()) {

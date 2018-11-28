@@ -17,7 +17,7 @@ class LelangController extends Controller
      */
     public function index()
     {
-        $lelang = Lelang::get();
+        $lelang = Lelang::orderBy('id', 'desc')->get();
         if (request()->ajax()) {
             foreach ($lelang as $key => $value) {
                 $data[] = collect($value)->prepend($key+1, 'no');

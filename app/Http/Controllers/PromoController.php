@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Promo;
+use App\Modul\FirebasePush as Push;
+use App\Modul\Firebase;
 use App\Traits\Upload;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,7 @@ class PromoController extends Controller
      */
     public function index()
     {
-        $promos = Promo::get();
+        $promos = Promo::orderBy('id', 'desc')->get();
         if (request()->ajax()) {
             foreach ($promos as $key => $value) {
                 $data[] = collect($value)->prepend($key+1, 'no');
@@ -51,8 +53,8 @@ class PromoController extends Controller
             'description' => 'required',
         ]);
         $request = $this->saveFile($request);
-        $promos = Promo::create($request->all());
-        return redirect()->route('promos.show', $promos->id)->withSuccess('Data berhasil disimpan');
+        $promo = Promo::create($request->all());
+        return redirect()->route('promos.show', $promo->id)->withSuccess('Data berhasil disimpan');
     }
 
     /**
@@ -93,6 +95,20 @@ class PromoController extends Controller
         ]);
         $request = $this->saveFile($request);
         $promo->update($request->all());
+        if ($promo->status == true) {
+            $push = new Push;
+            $firebase = new Firebase;
+            $push->setTitle('BPR MAA MOBILE');
+            $push->setMessage($promo->name);
+            $push->setImage(null);
+            $push->setIsBackground(FALSE);
+            $push->setPayload("promo");
+            $push->getPush();
+            return $firebase->send(
+                'c2OsCI-mRvY:APA91bE-kjKzAgdBWuSmNQT_Ic3jRT8vG_jJthlbjhKMooaatt28IfvU5_NViY1fuiReXZ5-MNDtPj10lC1EOyeXOyPLeIBisU4fe50E0xrhD_NqIipb25ykt2K03IzXHEPaxAoUZQ8-',
+                $push->getPush()
+            );
+        }
         return redirect()->route('promos.show', $promo->id)->withSuccess('Data berhasil diupdate');
     }
 

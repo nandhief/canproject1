@@ -12,6 +12,7 @@ use App\Credit;
 use App\Tabungan;
 use App\Customer;
 use App\History;
+use App\Vacancy;
 
 class ApiController extends Controller
 {
@@ -27,7 +28,7 @@ class ApiController extends Controller
             'name' => 'required|max:191',
             'email' => 'required|email|max:191',
             'phone' => 'required|numeric',
-            'password' => 'required|max:191',
+            'password' => 'required|max:191|min:6',
         ]);
         if (User::whereEmail($request->email)->first()) return json('Email sudah pernah dipakai', 'error', 0);
         if (User::wherePhone($request->phone)->first()) return json('Nomer Phone sudah pernah dipakai', 'error', 0);
@@ -35,7 +36,7 @@ class ApiController extends Controller
         if ($user) {
             $user->customer()->create([]);
             \Mail::to($user->email, $user->name)->send(new RegisterMail($user));
-            return json('Terima kasih sudah mendaftar, buka email anda untuk melakukan aktivasi akun');
+            return json('Terima kasih sudah mendaftar, silakan buka email anda untuk melakukan aktivasi akun');
         } else {
             return json('Terjadi kesalahan saat mendaftar', 'error', 0);
         }
@@ -51,19 +52,20 @@ class ApiController extends Controller
         $request->validate([
             'username' => 'required|max:191',
             'password' => 'required|max:191',
+            'fcm_token' => 'required|max:191',
         ]);
         $user = User::with(['customer'])->where('email', $request->username)->orWhere('phone', $request->username)->first();
         if ($user) {
             if (password_verify($request->password, $user->password)) {
                 if ($user->status) {
-                    $user->update(['api_token' => str_random(40)]);
+                    $user->update(['api_token' => str_random(40), 'fcm_token' => $request->fcm_token]);
                     return json(collect($user->makeHidden(['id', 'admin', 'activation', 'created_at', 'updated_at', 'deleted_at', 'path_foto']))->prepend($user->token, 'token')->prepend($user->customer->id, 'customer_id'));
                 } else {
                     return json('Mohon maaf. akun anda belum di aktivasi, buka email registrasi anda untuk aktivasi', 'error', 0);
                 }
             }
         }
-        return json('Identitas tersebut tidak cocok dengan data kami.', 'error', 0);
+        return json('Maaf email atau password salah', 'error', 0);
     }
 
     /**
@@ -91,9 +93,28 @@ class ApiController extends Controller
      */
     public function update_user(Request $request)
     {
+        $request->validate([
+            'email' => 'required|unique:users,email,'. auth()->user()->id,
+        ]);
+        if ($request->hasFile('path_foto')) {
+            $filename = date('YmdHis_') . $request->path_foto->getClientOriginalName();
+            $request->path_foto->move('./storage/original', $filename);
+            $request = new Request(array_merge($request->all(), ['path_foto' => $filename]));
+        }
+        $user = User::whereEmail(auth()->user()->email)->first();
+        $user->update($request->all());
+        $user->customer->update($request->all());
+        return json(collect($user)->prepend('Update user ' . $user->name . ' Berhasil', 'message'));
+    }
+
+    public function password_user(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|min:6',
+        ]);
         $user = User::whereEmail(auth()->user()->email)->first();
         $user->update($request->except('email'));
-        return json('Update user ' . $user->name . ' Berhasil');
+        return json(collect($user)->prepend('Update password user ' . $user->name . ' Berhasil', 'message'));
     }
 
     /**
@@ -104,10 +125,10 @@ class ApiController extends Controller
     public function career(Request $request)
     {
         $request->validate([
+            'vacancy_id' => 'required',
             'name' => 'required|max:191',
             'email' => 'required|max:191',
             'phone' => 'required|numeric',
-            'posisi' => 'required|max:191',
             'description' => 'required',
         ]);
         if ($request->hasFile('path_resume')) {
@@ -115,8 +136,9 @@ class ApiController extends Controller
             $request->path_resume->move('./storage/original', $filename);
             $request = new Request(array_merge($request->all(), ['path_resume' => $filename]));
         }
-        $career = Career::create($request->all());
-        return json('Terima Kasih lamarannya, mohon tunggu kabar baik dari kami');
+        $vacancy = Vacancy::with('careers')->find($request->vacancy_id);
+        $vacancy->careers()->create(array_merge($request->all(), ['user_id' => auth()->user()->id]));
+        return json('Terima Kasih, lamaran anda berhasil dikirim');
     }
 
     /**
@@ -126,7 +148,7 @@ class ApiController extends Controller
     public function validateCreditTabungan($request)
     {
         $request->validate([
-            'foto_ktp' => 'required',
+            'foto_ktp' => 'required|image',
             'name' => 'required',
             'address' => 'required',
             'phone' => 'required|numeric',
@@ -135,7 +157,9 @@ class ApiController extends Controller
         if ($request->hasFile('foto_ktp')) {
             $filename = date('YmdHis_') . $request->foto_ktp->getClientOriginalName();
             $request->foto_ktp->move('./storage/original', $filename);
+            $request = new Request(array_merge($request->all(), ['foto_ktp' => $filename]));
         }
+        return $request;
     }
     
     /**
@@ -145,23 +169,16 @@ class ApiController extends Controller
      */
     public function credit(Request $request)
     {
-        $this->validateCreditTabungan($request);
+        $request = $this->validateCreditTabungan($request);
         $customer = Customer::find(auth()->user()->customer->id);
-        $customer->update([$request->only('foto_ktp')]);
-        $history = new History(['description' => 'Pengajuan Kredit']);
+        $customer->update($request->only('foto_ktp'));
         if ($customer->credit) {
-            switch ($customer->credit->status) {
-                case null:
-                    return json('Mohon maaf anda sudah melakukan pengajuan kredit, mohon untuk di proses dari kami', 'error', 0);
-                    break;
-                case 0:
-                    return json('Mohon maaf anda sudah melakukan pengajuan kredit dan sedang dalam tahap proses dari kami, mohon tunggu kabar baik dari kami', 'error', 0);
-                    break;
-            }
+            return json('Mohon maaf anda sudah melakukan pengajuan kredit, mohon tunggu proses dari kami', 'error', 0);
         }
+        $history = new History(['description' => 'Pengajuan Kredit']);
         $credit = $customer->credit()->create([]);
         $credit->histories()->save($history);
-        return json('Terima kasih sudah mengajukan Kredit, untuk informasi selanjutnya akan kami info di email/telephone/sms');
+        return json([], 'Terima kasih pengajuan kredit anda akan kami proses.');
     }
     
     /**
@@ -171,21 +188,35 @@ class ApiController extends Controller
      */
     public function tabungan(Request $request)
     {
-        $this->validateCareerTabungan($request);
+        $request = $this->validateCreditTabungan($request);
         $customer = Customer::find(auth()->user()->customer->id);
-        $history = new History(['description' => 'Pengajuan Tabungan']);
+        $customer->update($request->only('foto_ktp'));
         if ($customer->tabungan) {
-            switch ($customer->tabungan->status) {
-                case null:
-                    return json('Mohon maaf anda sudah melakukan pengajuan tabungan, mohon tunggu untuk di proses kami', 'error', 0);
-                    break;
-                case 0:
-                    return json('Mohon maaf anda sudah melakukan pengajuan tabungan dan sedang dalam tahap proses dari kami, mohon tunggu kabar baik dari kami', 'error', 0);
-                    break;
-            }
+            return json('Mohon maaf anda sudah melakukan pengajuan tabungan, mohon tunggu proses dari kami', 'error', 0);
         }
+        $history = new History(['description' => 'Pengajuan Tabungan']);
         $tabungan = $customer->tabungan()->create([]);
         $tabungan->histories()->save($history);
-        return json('Terima kasih sudah mengajukan Tabungan, untuk informasi selanjutnya akan kami info di email/telephone/sms');
+        return json([], 'Terima kasih pengajuan tabungan anda akan kami proses.');
+    }
+
+    public function history($history)
+    {
+        $histories = [];
+        $user = User::find(auth()->user()->id);
+        if ($history == 'tabungan') {
+            $tabungan = Tabungan::whereCustomerId($user->customer->id)->first();
+            if ($tabungan) {
+                $histories = $tabungan->histories->makeHidden(['id', 'reply', 'created_at', 'updated_at']);
+            }
+            return json($histories);
+        }
+        if ($history == 'credit') {
+            $credit = Credit::whereCustomerId($user->customer->id)->first();
+            if ($credit) {
+                $histories = $credit->histories->makeHidden(['id', 'reply', 'created_at', 'updated_at']);
+            }
+            return json($histories);
+        }
     }
 }

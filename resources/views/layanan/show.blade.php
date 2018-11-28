@@ -38,17 +38,17 @@
 								<td><img src="{!! $layanan->image !!}" alt="{{ $layanan->name }}" class="img-responsive"></td>
 							</tr>
 							<tr>
-								<th>Terbit</th>
+								<th>TERBIT</th>
 								<td>
 									{!! $layanan->status ? '<span class="label label-success">Terbit</span>' : '<span class="label label-warning">Draf</span>' !!}
 								</td>
 							</tr>
 							<tr>
-								<th>Short Description</th>
+								<th>KETERANGAN SINGKAT</th>
 								<td>{{ $layanan->short_desc }}</td>
 							</tr>
 							<tr>
-								<th>Description</th>
+								<th>KETERANGAN</th>
 								<td>{!! $layanan->description !!}</td>
 							</tr>
 						</table>

@@ -30,21 +30,17 @@
 								<td><img src="{!! $product->image !!}" alt="{{ $product->name }}" class="img-responsive"></td>
 							</tr>
 							<tr>
-								<th>ICON</th>
-								<td><img src="{!! $product->icon !!}" alt="{{ $product->name }}" class="img-responsive"></td>
-							</tr>
-							<tr>
-								<th>Terbit</th>
+								<th>TERBIT</th>
 								<td>
 									{!! $product->status ? '<span class="label label-success">Terbit</span>' : '<span class="label label-warning">Draf</span>' !!}
 								</td>
 							</tr>
 							<tr>
-								<th>Short Description</th>
+								<th>KETERANGAN SINGKAT</th>
 								<td>{{ $product->short_desc }}</td>
 							</tr>
 							<tr>
-								<th>Description</th>
+								<th>KETERANGAN</th>
 								<td>{!! $product->description !!}</td>
 							</tr>
 						</table>

@@ -83,7 +83,9 @@ class ResetPasswordController extends Controller
      */
     protected function validationErrorMessages()
     {
-        return [];
+        return [
+            'email.required' => 'Alamat email wajib diisi',
+        ];
     }
 
     /**

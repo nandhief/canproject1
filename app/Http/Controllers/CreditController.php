@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Credit;
 use App\History;
+use App\Mail\HistoryMail;
+use App\Modul\FirebasePush as Push;
+use App\Modul\Firebase;
 use Illuminate\Http\Request;
 
 class CreditController extends Controller
@@ -43,7 +46,7 @@ class CreditController extends Controller
      * @param  \App\Credit  $credit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Credit $credit)
+    public function update(Request $request, Credit $credit, Push $push, Firebase $firebase)
     {
         $request->validate([
             'status' => 'required',
@@ -52,6 +55,21 @@ class CreditController extends Controller
         $history = new History($request->all());
         $credit->update($request->all());
         $credit->histories()->save($history);
+        $push->setTitle('BPR MAA MOBILE');
+        $push->setMessage('Riwayat Pengajuan Kredit: ' . $request->description);
+        $push->setImage(null);
+        $push->setIsBackground(FALSE);
+        $push->setPayload("credit");
+        $firebase->send($credit->customer->user->fcm_token, $push->getPush());
+        if ($request->reply) {
+            $history = (object) [
+                'name' => $credit->customer->user->name,
+                'email' => $credit->customer->user->email,
+                'reply' => $request->reply,
+                'category' => 'PENGAJUAN KREDIT',
+            ];
+            \Mail::to($credit->customer->user->email, $credit->customer->user->name)->send(new HistoryMail($history));
+        }
         return redirect()->route('credits.show', $credit->id)->withSuccess('Data Proses pengajuan kredit berhasil diupdate');
     }
 

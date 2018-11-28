@@ -61,6 +61,18 @@
 								<span class="help-block">{{ $errors->first('description') }}</span>
 							@endif
 						</div>
+						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('status') ? 'has-error' : '' }}">
+							<label for="status">Terbitkan</label>
+							<div class="radio">
+								<label><input type="radio" name="status" value="0"> Draf</label>
+							</div>
+							<div class="radio">
+								<label><input type="radio" name="status" value="1">Terbit</label>
+							</div>
+							@if ($errors->has('status'))
+								<span class="help-block">{{ $errors->first('status') }}</span>
+							@endif
+						</div>
 					</div>
 					<div class="row">
 						<div class="form-group col-md-12 col-sm-12">

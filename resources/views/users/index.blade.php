@@ -23,7 +23,7 @@
 				<div class="tab-content">
 					<div class="tab-pane fade in active" id="broker">
 						<div class="">
-							<table class="table table-hover tabler-bordered {{ $brokers->count() > 0 ? 'brokers':'' }}" style="width: 100%;">
+							<table class="table table-hover tabler-bordered brokers" style="width: 100%;">
 								<thead>
 									<tr>
 										<th data-searchable="false">#</th>
@@ -45,7 +45,7 @@
 					</div>
 					<div class="tab-pane fade" id="customer">
 						<div class="">
-							<table class="table table-hover tabler-bordered {{ $customers->count() > 0 ? 'customers':'' }}" style="width: 100%;">
+							<table class="table table-hover tabler-bordered customers" style="width: 100%;">
 								<thead>
 									<tr>
 										<th data-searchable="false">#</th>
@@ -111,7 +111,7 @@
                     { 
                         data: null,
                         render: function (data) {
-                            return '<a href="{{ route('users.index') }}/' + data.id + '" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Lihat</a> <a href="{{ route('users.index') }}/' + data.id + '/edit" class="btn btn-xs btn-flat btn-info"><i class="fa fa-edit"></i> Edit</a> <form method="POST" action="{{  route('users.index') }}/' + data.id + '" accept-charset="UTF-8" style="display: inline-block;"><input name="_method" type="hidden" value="DELETE"><input name="_token" type="hidden" value="{{ csrf_token()  }}"> <button type="submit" class="btn btn-xs btn-flat btn-danger" onclick="return confirm(\'Anda Yakin Menghapus Data ' + data.name + '\')"><i class="fa fa-trash"></i> Hapus</button> </form>';
+                            return '<a href="{{ route('users.index') }}/' + data.id + '" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Lihat</a> <form method="POST" action="{{  route('users.index') }}/' + data.id + '" accept-charset="UTF-8" style="display: inline-block;"><input name="_method" type="hidden" value="DELETE"><input name="_token" type="hidden" value="{{ csrf_token()  }}"> <button type="submit" class="btn btn-xs btn-flat btn-danger" onclick="return confirm(\'Anda Yakin Menghapus Data ' + data.name + '\')"><i class="fa fa-trash"></i> Hapus</button> </form>';
                         }
                     }
                 ]
@@ -150,7 +150,7 @@
                 	{ 
                 		data: null,
                 		render: function (data) {
-                			return '<img src="{{ url('storage/original') }}/' + data.customer.foto_ktp + '" width="100px">';
+                			return '<img src="' + data.customer.ktp + '" width="100px">';
                 		}
                 	},
                 	{ 
@@ -162,7 +162,7 @@
                     { 
                         data: null,
                         render: function (data) {
-                            return '<a href="{{ route('users.index') }}/' + data.id + '" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Lihat</a> <a href="{{ route('users.index') }}/' + data.id + '/edit" class="btn btn-xs btn-flat btn-info"><i class="fa fa-edit"></i> Edit</a> <form method="POST" action="{{  route('users.index') }}/' + data.id + '" accept-charset="UTF-8" style="display: inline-block;"><input name="_method" type="hidden" value="DELETE"><input name="_token" type="hidden" value="{{ csrf_token()  }}"> <button type="submit" class="btn btn-xs btn-flat btn-danger" onclick="return confirm(\'Anda Yakin Menghapus Data ' + data.name + '\')"><i class="fa fa-trash"></i> Hapus</button> </form>';
+                            return '<a href="{{ route('users.index') }}/' + data.id + '" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Lihat</a> <form method="POST" action="{{  route('users.index') }}/' + data.id + '" accept-charset="UTF-8" style="display: inline-block;"><input name="_method" type="hidden" value="DELETE"><input name="_token" type="hidden" value="{{ csrf_token()  }}"> <button type="submit" class="btn btn-xs btn-flat btn-danger" onclick="return confirm(\'Anda Yakin Menghapus Data ' + data.name + '\')"><i class="fa fa-trash"></i> Hapus</button> </form>';
                         }
                     }
                 ]

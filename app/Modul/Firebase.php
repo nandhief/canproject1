@@ -34,14 +34,12 @@ class Firebase
  
     // function makes curl request to firebase servers
     private function sendPushNotification($fields) {
-        // Firebase API Key
-        define('FIREBASE_API_KEY','AAAA6nq1hrc:APA91bGY8usvR2DuklbGqhqu5U7axbEx4Jf798EkfYDMF76o66-se8Rxuph1zTGgAh9Ax_AXKclSAly_3Ua1FU_-qrXKKl-YiHNwEDgRvb-IGlytLLFeFs1m6D_LrhUnwCC2BhvpBq4t');
 
         // Set POST variables
         $url = 'https://fcm.googleapis.com/fcm/send';
  
         $headers = array(
-            'Authorization: key=' . FIREBASE_API_KEY,
+            'Authorization: key=' . env('FIREBASE_KEY'),
             'Content-Type: application/json'
         );
         // Open connection

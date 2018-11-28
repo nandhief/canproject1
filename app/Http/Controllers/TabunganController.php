@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Tabungan;
+use App\History;
+use App\Mail\HistoryMail;
+use App\Modul\FirebasePush as Push;
+use App\Modul\Firebase;
 use Illuminate\Http\Request;
 
 class TabunganController extends Controller
@@ -53,7 +57,7 @@ class TabunganController extends Controller
      * @param  \App\Tabungan  $tabungan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tabungan $tabungan)
+    public function update(Request $request, Tabungan $tabungan, Push $push, Firebase $firebase)
     {
         $request->validate([
             'status' => 'required',
@@ -62,7 +66,22 @@ class TabunganController extends Controller
         $history = new History($request->all());
         $tabungan->update($request->all());
         $tabungan->histories()->save($history);
-        return redirect()->route('tabungan.show', $credit->id)->withSuccess('Data Proses pengajuan tabungan berhasil diupdate');
+        $push->setTitle('BPR MAA MOBILE');
+        $push->setMessage('Riwayat Pengajuan Tabungan: ' . $request->description);
+        $push->setImage(null);
+        $push->setIsBackground(FALSE);
+        $push->setPayload("tabungan");
+        $firebase->send($tabungan->customer->user->fcm_token, $push->getPush());
+        if ($request->reply) {
+            $history = (object) [
+                'name' => $tabungan->customer->user->name,
+                'email' => $tabungan->customer->user->email,
+                'reply' => $request->reply,
+                'category' => 'PENGAJUAN TABUNGAN',
+            ];
+            \Mail::to($tabungan->customer->user->email, $tabungan->customer->user->name)->send(new HistoryMail($history));
+        }
+        return redirect()->route('tabungan.show', $tabungan->id)->withSuccess('Data Proses pengajuan tabungan berhasil diupdate');
     }
 
     /**

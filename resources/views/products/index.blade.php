@@ -12,6 +12,7 @@
 @endsection
 
 @section('content')
+    <div class="response"></div>
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="box box-primary">
@@ -88,9 +89,10 @@
 @section('js')
 	<script src="{{ asset('plugins') }}/datatables/jquery.dataTables.min.js"></script>
 	<script src="{{ asset('plugins') }}/datatables/dataTables.yajra.min.js"></script>
+	<script src="{{ asset('plugins') }}/datatables/plugins/fnReloadAjax.js"></script>
 	<script>
 		$(document).ready(function () {
-			$('.dana').dataTable({
+			var dana = $('.dana').dataTable({
 				ajax: {
                     dataSrc: "data_dana"
                 },
@@ -107,7 +109,9 @@
                 	{
                 		data: null,
                 		render: function (data) {
-                			return data.status == 0 ? '<span class="label label-warning">Draf</span>' : '<span class="label label-info">Terbit</span>';
+                            var status = data.status == 0 ? '<span class="label label-warning">Draf</span>' : '<span class="label label-info">Terbit</span>'
+                            var notif = data.notif == 0 ? '<button onclick="return push(' + data.id + ')" class="btn btn-xs btn-flat btn-info notif" data-toggle="tooltip" data-placement="top" title="Beritahu kesemua customer"><i class="fa fa-bell-o"></i></button>' : '<button class="btn btn-xs btn-flat btn-default" disabled data-toggle="tooltip" data-placement="top"><i class="fa fa-bell"></i></button>'
+                			return status + ' ' + (data.status == 0 ? '' : notif)
                 		}
                 	},
                     {
@@ -118,7 +122,7 @@
                     }
                 ]
 			});
-			$('.kredit').dataTable({
+			var kredit = $('.kredit').dataTable({
 				ajax: {
                     dataSrc: "data_kredit"
                 },
@@ -135,7 +139,9 @@
                 	{
                 		data: null,
                 		render: function (data) {
-                			return data.status == 0 ? '<span class="label label-warning">Draf</span>' : '<span class="label label-info">Terbit</span>';
+                            var status = data.status == 0 ? '<span class="label label-warning">Draf</span>' : '<span class="label label-info">Terbit</span>'
+                            var notif = data.notif == 0 ? '<button onclick="return push(' + data.id + ')" class="btn btn-xs btn-flat btn-info notif" data-toggle="tooltip" data-placement="top" title="Beritahu kesemua customer"><i class="fa fa-bell-o"></i></button>' : '<button class="btn btn-xs btn-flat btn-default" disabled data-toggle="tooltip" data-placement="top"><i class="fa fa-bell"></i></button>'
+                			return status + ' ' + (data.status == 0 ? '' : notif)
                 		}
                 	},
                     {
@@ -146,6 +152,35 @@
                     }
                 ]
 			});
+            window.push = function push(id) {
+                $.ajax({
+                    url: '{{ route('notifications') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        type: 'product',
+                        id: id
+                    },
+                    beforeSend: function () {
+                        $('.notif').attr('disabled', true);
+                    },
+                    success: function (result) {
+                        $('.response').append(
+							'<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> Berhasil!</h4> ' + result.success + ' </div>'
+						);
+                        $('.notif').attr('disabled', false);
+                        dana.fnReloadAjax();
+                        kredit.fnReloadAjax();
+                    },
+                    error: function (errors) {
+                        var data = errors.responseJSON.errors
+                        $('.response').append(
+							'<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> Berhasil!</h4> ' +  + ' </div>'
+						);
+                        $('.notif').attr('disabled', false);
+                    }
+                })
+            }
 		});
 	</script>
 @endsection

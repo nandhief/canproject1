@@ -2,7 +2,7 @@
 
 namespace App\Modul;
 
-class Push {
+class FirebasePush {
  
     // push message title
     private $title;
@@ -47,7 +47,7 @@ class Push {
         $res['data']['message'] = $this->message;
         $res['data']['image'] = $this->image;
         $res['data']['payload'] = $this->data;
-        $res['data']['timestamp'] = now();
+        $res['data']['timestamp'] = date('Y-m-d');
         return $res;
     }
  

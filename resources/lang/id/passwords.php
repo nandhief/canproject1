@@ -14,9 +14,9 @@ return [
     */
 
     'password' => 'Kata sandi harus minimal enam karakter dan cocok dengan konfirmasi.',
-    'reset'    => 'Kata sandi Anda sudah direset!',
+    'reset'    => 'Kata sandi Anda berhasil diubah!',
     'sent'     => 'Kami sudah mengirim email yang berisi tautan untuk mereset kata sandi Anda!',
-    'token'    => 'Kata sandi token pengaturan ulang tidak sah.',
+    'token'    => 'Tautan ganti password sudah kedaluarsa',
     'user'     => 'Kami tidak dapat menemukan pengguna dengan alamat surel tersebut.',
 
 ];

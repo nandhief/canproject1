@@ -60,6 +60,8 @@
 									<th>SATUAN</th>
 									<th>BELI</th>
 									<th>JUAL</th>
+									<th>BELI LAMA</th>
+									<th>JUAL LAMA</th>
 									<th data-orderable="false" data-searchable="false">&nbsp;</th>
 								</tr>
 							</thead>
@@ -98,6 +100,14 @@
                             <label for="sell">JUAL</label>
                             <input type="text" name="sell" class="form-control">
                         </div>
+                        <div class="form-group col-md-6">
+                            <label for="old_buy">BELI LAMA</label>
+                            <input type="text" name="old_buy" readonly class="form-control">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="old_sell">JUAL LAMA</label>
+                            <input type="text" name="old_sell" readonly class="form-control">
+                        </div>
                     {{ Form::close() }}
                 </div>
                 <div class="modal-footer">
@@ -125,13 +135,15 @@
             }
             return dataObject
         }
-        function edit(id, name, symbol, buy, sell) {
+        function edit(id, name, symbol, buy, sell, old_buy, old_sell) {
             var form = $('form#edit > div')
             form.find('input[name="id"]').val(id)
             form.find('input[name="name"]').val(name)
             form.find('input[name="symbol"]').val(symbol)
             form.find('input[name="buy"]').val(buy)
             form.find('input[name="sell"]').val(sell)
+            form.find('input[name="old_buy"]').val(buy)
+            form.find('input[name="old_sell"]').val(sell)
             $('.modal-title').text('EDIT COMMODITY ' + name)
             $('.edit').modal('show')
         }
@@ -145,6 +157,8 @@
                 	{ data: 'symbol' },
                 	{ data: 'beli' },
                 	{ data: 'jual' },
+                	{ data: 'beli_lama' },
+                	{ data: 'jual_lama' },
                     {
                         data: null,
                         render: function (data) {

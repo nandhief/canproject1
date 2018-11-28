@@ -36,20 +36,8 @@
 								<span class="help-block">{{ $errors->first('path_image') }}</span>
 							@endif
                         </div>
-                        <div class="form-group col-md-6 col-sm-6">
+                        <div class="form-group col-md-4 col-md-offset-1 col-sm-6">
                             <img src="" alt="" class="img-responsive path_image">
-                        </div>
-                    </div>
-                    <div class="row">
-						<div class="form-group col-md-6 col-sm-6 {{ $errors->has('icon_image') ? 'has-error' : '' }}">
-							<label for="icon_image">Icon *</label>
-							{{ Form::file('icon_image', ['class' => 'form-control']) }}
-							@if ($errors->has('icon_image'))
-								<span class="help-block">{{ $errors->first('icon_image') }}</span>
-							@endif
-                        </div>
-                        <div class="form-group col-md-6 col-sm-6">
-                            <img src="" alt="" class="img-responsive icon_image">
                         </div>
                     </div>
                     <div class="row">
@@ -65,6 +53,18 @@
 							{{ Form::textarea('description', old('description'), ['class' => 'form-control text-editor']) }}
 							@if ($errors->has('description'))
 								<span class="help-block">{{ $errors->first('description') }}</span>
+							@endif
+						</div>
+						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('status') ? 'has-error' : '' }}">
+							<label for="status">Terbitkan</label>
+							<div class="radio">
+								<label><input type="radio" name="status" value="0"> Draf</label>
+							</div>
+							<div class="radio">
+								<label><input type="radio" name="status" value="1">Terbit</label>
+							</div>
+							@if ($errors->has('status'))
+								<span class="help-block">{{ $errors->first('status') }}</span>
 							@endif
 						</div>
 					</div>
@@ -86,7 +86,6 @@
     <script>
         $(document).ready(function() {
             var readURL = function (input, target) {
-                console.log(input[0].files[0])
                 if (input[0].files && input[0].files[0]) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
@@ -97,9 +96,6 @@
             }
             $('input[name="path_image"]').change(function () {
                 readURL($(this), $('.path_image'))
-            })
-            $('input[name="icon_image"]').change(function () {
-                readURL($(this), $('.icon_image'))
             })
             tinymce.init({
                 selector: '.text-editor',

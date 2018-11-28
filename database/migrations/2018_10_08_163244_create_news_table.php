@@ -22,6 +22,7 @@ class CreateNewsTable extends Migration
             $table->text('short_desc')->nullable();
             $table->text('description')->nullable();
             $table->tinyInteger('status')->default(false);
+            $table->tinyInteger('notif')->default(false);
             $table->tinyInteger('highlight')->default(false);
             $table->integer('order')->nullable();
             $table->timestamps();

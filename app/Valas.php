@@ -6,8 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Valas extends Model
 {
-    protected $fillable = ['name', 'symbol', 'buy', 'sell'];
-    protected $appends = ['beli', 'jual'];
+    protected $fillable = ['name', 'symbol', 'buy', 'sell', 'old_buy', 'old_sell'];
+    protected $appends = ['beli', 'jual', 'beli_lama', 'jual_lama'];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->old_buy = $model->buy;
+            $model->old_sell = $model->sell;
+        });
+    }
     
     public function getNameAttribute($value)
     {
@@ -27,5 +36,15 @@ class Valas extends Model
     public function getJualAttribute()
     {
         return number_format($this->sell, 2, ',', '.');
+    }
+
+    public function getBeliLamaAttribute()
+    {
+        return number_format($this->old_buy, 2, ',', '.');
+    }
+
+    public function getJualLamaAttribute()
+    {
+        return number_format($this->old_sell, 2, ',', '.');
     }
 }

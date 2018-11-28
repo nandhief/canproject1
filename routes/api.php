@@ -1,6 +1,6 @@
 <?php
 
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,20 +16,42 @@ Route::namespace('Api')->group(function () {
     Route::get('dashboard', 'InfoController@dashboard');
     Route::get('news', 'InfoController@listNews');
     Route::get('news/{news}', 'InfoController@news');
+    Route::get('layanan', 'InfoController@listLayanan');
+    Route::get('layanan/{layanan}', 'InfoController@layanan');
     Route::get('promo', 'InfoController@listPromo');
     Route::get('promo/{promo}', 'InfoController@promo');
-    Route::get('lelang', 'InfoController@listLelang')->middleware('auth:api');
-    Route::get('lelang/{lelang}', 'InfoController@lelang')->middleware('auth:api');
-    Route::get('commodity', 'InfoController@listCommodity');
-    Route::get('commodity/{commodity}', 'InfoController@commodity');
-    Route::get('vacancy', 'InfoController@listVacancy')->middleware('auth:api');
-    Route::get('vacancy/{vacancy}', 'InfoController@vacancy')->middleware('auth:api');
+    Route::get('product', 'InfoController@listProduct');
+    Route::get('product/{product}', 'InfoController@product');
+    Route::get('commodity', 'InfoController@commodity');
+    Route::get('lelang', 'InfoController@listLelang');
+    Route::get('lelang/{lelang}', 'InfoController@lelang');
     Route::get('valas', 'InfoController@valas');
+    Route::get('slider', 'InfoController@slider');
+    Route::get('about', 'InfoController@about');
+    Route::get('contacts', 'InfoController@contacts');
+    Route::get('corporates', 'InfoController@corporates');
 });
-Route::post('career', 'ApiController@career');
-Route::post('login', 'ApiController@login');
-Route::post('user/update', 'ApiController@updateUser')->middleware('auth:api');
+Route::middleware('auth:api')->group(function () {
+    Route::namespace('Api')->group(function () {
+        Route::get('vacancy', 'InfoController@listVacancy');
+        Route::get('vacancy/{vacancy}', 'InfoController@vacancy');
+    });
+    Route::post('career', 'ApiController@career');
+    Route::post('user/update', 'ApiController@update_user');
+    Route::post('user/password', 'ApiController@password_user');
+    Route::post('credit', 'ApiController@credit');
+    Route::post('tabungan', 'ApiController@tabungan');
+    Route::get('history/{history}', 'ApiController@history');
+});
 Route::post('register', 'ApiController@register');
 Route::post('forgot', 'ApiController@forgot');
-Route::post('credit', 'ApiController@credit')->middleware('auth:api');
-Route::post('tabungan', 'ApiController@tabungan')->middleware('auth:api');
+Route::post('login', 'ApiController@login');
+
+Route::post('upload', function (Request $request) {
+    if ($request->hasFile('file')) {
+        $filename = date('YmdHsi_') . $request->file->getClientOriginalName();
+        return json($filename);
+    } else {
+        return json('GAGAL UPLOAD', 'error', 0);
+    }
+});

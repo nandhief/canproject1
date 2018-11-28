@@ -26,7 +26,7 @@
 								<td>{{ $lelang->name }}</td>
 							</tr>
 							<tr>
-								<th>Terbit</th>
+								<th>TERBIT</th>
 								<td>
 									{!! $lelang->status ? '<span class="label label-success">Terbit</span>' : '<span class="label label-warning">Draf</span>' !!}
 								</td>
@@ -36,15 +36,11 @@
 								<td><img src="{!! $lelang->image !!}" alt="{{ $lelang->name }}" class="img-responsive"></td>
 							</tr>
 							<tr>
-								<th>ICON</th>
-								<td><img src="{!! $lelang->icon !!}" alt="{{ $lelang->name }}" class="img-responsive"></td>
-							</tr>
-							<tr>
-								<th>Short Description</th>
+								<th>KETERANGAN SINGKAT</th>
 								<td>{{ $lelang->short_desc }}</td>
 							</tr>
 							<tr>
-								<th>Description</th>
+								<th>KETERANGAN</th>
 								<td>{!! $lelang->description !!}</td>
 							</tr>
 						</table>

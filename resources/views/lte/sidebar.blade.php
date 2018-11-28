@@ -7,13 +7,20 @@
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                 </a>
             </li>
+            @if (auth()->user()->id == 1)
+            <li class="{{ request()->is('admin*') ? 'active' : '' }}">
+                <a href="{{ route('admin.index') }}">
+                    <i class="fa fa-users"></i> <span>Users Admin</span>
+                </a>
+            </li>
+            @else
             <li class="{{ request()->is('users*') ? 'active' : '' }}">
                 <a href="{{ route('users.index') }}">
                     <i class="fa fa-users"></i> <span>Users</span>
                 </a>
             </li>
             <li class="{{ request()->is('corporate*') ? 'active' : '' }}">
-                <a href="{{ url('/corporate') }}">
+                <a href="{{ route('corporates.index') }}">
                     <i class="fa fa-building"></i> <span>Corporate</span>
                 </a>
             </li>
@@ -22,30 +29,20 @@
                     <i class="fa fa-cubes"></i> <span>Produk</span>
                 </a>
             </li>
-            <li class="{{ request()->is('rekening*') ? 'active' : '' }}">
-                <a href="@{{ route('rekening.index') }}">
+            <li class="{{ request()->is('tabungan*') ? 'active' : '' }}">
+                <a href="{{ route('tabungan.index') }}">
                     <i class="fa fa-folder-open"></i> <span>Rekening</span>
                     <span class="pull-right-container">
                         {{--  --}}
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->is('kredit*') ? 'active' : '' }}">
-                <a href="@{{ route('kredit.index') }}">
+            <li class="{{ request()->is('credits*') ? 'active' : '' }}">
+                <a href="{{ route('credits.index') }}">
                     <i class="fa fa-folder-open"></i> <span>Kredit</span>
                     <span class="pull-right-container">
                         {{--  --}}
                     </span>
-                </a>
-            </li>
-            <li class="{{ request()->is('valas*') ? 'active' : '' }}">
-                <a href="@{{ route('valas.index') }}">
-                    <i class="fa fa-line-chart"></i> <span>Valas</span>
-                </a>
-            </li>
-            <li class="{{ request()->is('commodities*') ? 'active' : '' }}">
-                <a href="{{ route('commodities.index') }}">
-                    <i class="fa fa-th"></i> <span>Commodity</span>
                 </a>
             </li>
             <li class="{{ request()->is('layanan*') ? 'active' : '' }}">
@@ -76,6 +73,16 @@
                             <i class="fa fa-exchange"></i> <span>Lelang</span>
                         </a>
                     </li>
+                    <li class="{{ request()->is('valas*') ? 'active active-sub' : '' }}">
+                        <a href="{{ route('valas.index') }}">
+                            <i class="fa fa-line-chart"></i> <span>Valas</span>
+                        </a>
+                    </li>
+                    <li class="{{ request()->is('commodities*') ? 'active active-sub' : '' }}">
+                        <a href="{{ route('commodities.index') }}">
+                            <i class="fa fa-th"></i> <span>Commodity</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="{{ request()->is('careers*') ? 'active' : '' }}">
@@ -85,13 +92,14 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ request()->is('contact*') ? 'active' : '' }}">
-                <a href="{{ url('/contact') }}">
+            <li class="{{ request()->is('contacts*') ? 'active' : '' }}">
+                <a href="{{ route('contacts.index') }}">
                     <i class="fa fa-address-book"></i> <span>Kontak</span>
                 </a>
             </li>
+            @endif
             <li class="{{ request()->is('settings*') ? 'active' : '' }}">
-                <a href="@{{ route('settings.index') }}">
+                <a href="{{ route('settings.index') }}">
                     <i class="fa fa-wrench"></i> <span>Pengaturan</span>
                 </a>
             </li>

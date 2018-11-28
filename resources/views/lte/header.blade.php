@@ -15,19 +15,19 @@
 			@if (auth()->check())
 			<li class="dropdown user user-menu">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<img src="{{ url('/') }}/lte/img/user2-160x160.jpg" class="user-image" alt="User Image">
+					<img src="{{ Avatar::create(auth()->user()->name)->toBase64() }}" class="user-image" alt="User Image">
 					<span class="hidden-xs">{{ auth()->user()->name ?? 'Alexander Pierce' }}</span>
 				</a>
 				<ul class="dropdown-menu">
 					<li class="user-header">
-						<img src="{{ url('/') }}/lte/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+						<img src="{{ Avatar::create(auth()->user()->name)->toBase64() }}" class="img-circle" alt="User Image">
 						<p>
 							{{ auth()->user()->name ?? 'Alexander Pierce' }}
 						</p>
 					</li>
 					<li class="user-footer">
 						<div class="pull-left">
-							<a href="#" class="btn btn-default btn-flat">Profile</a>
+							<a href="{{ route('settings.index', 'edit=profile') }}" class="btn btn-default btn-flat">Profile</a>
 						</div>
 						<div class="pull-right">
 							{{ Form::open(['route' => 'logout']) }}

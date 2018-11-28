@@ -3,22 +3,75 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Contact;
 
 class ContactController extends Controller
 {
-    //
     public function index()
     {
-    	$table = Contact::all();
-    	//dd($table);
-
-
-    	return view('contact/index');
+        $data = [];
+        $contacts = Contact::get();
+        if (request()->ajax()) {
+            foreach ($contacts as $key => $value) {
+                $data[] = collect($value)->prepend($key+1, 'no');
+            }
+            return response()->json(compact('data'));
+        }
+    	return view('contact.index', compact('contacts'));
     }
 
     public function create()
     {
     	return view('contact/create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'posisi' => 'required',
+            'name' => 'required',
+            'telp' => 'required',
+            'alamat' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required'
+        ]);
+        if (Contact::wherePosisi('pusat')->first()) {
+            return redirect()->back()->withErrors('Kantor Pusat Hanya Boleh Satu');
+        }
+        $table = Contact::create($request->all());
+        return redirect()->route('contacts.index')->withSuccess('Data Berhasil Disimpan');
+    }
+
+    public function edit($id)
+    {
+        $table = Contact::findOrFail($id);
+        return view('contact/edit', ['data' => $table]);
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'posisi' => 'required',
+            'name' => 'required',
+            'telp' => 'required',
+            'alamat' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required'
+        ]);
+        if (Contact::wherePosisi('pusat')->first()) {
+            return redirect()->back()->withErrors('Kantor Pusat Hanya Boleh Satu');
+        }
+        $table = Contact::find($id);
+        $table->update($request->all());
+        return redirect()->route('contacts.index')->withSuccess('Data Berhasil Diupdate');
+    }
+
+    public function destroy($id)
+    {
+        $table = Contact::findOrFail($id);
+        $table->delete();
+        return redirect()->route('contacts.index')->withSuccess('Data Berhasil Dihapus');
     }
 }

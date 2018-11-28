@@ -30,21 +30,17 @@
 								<td><img src="{!! $promo->image !!}" alt="{{ $promo->name }}" class="img-responsive"></td>
 							</tr>
 							<tr>
-								<th>ICON</th>
-								<td><img src="{!! $promo->icon !!}" alt="{{ $promo->name }}" class="img-responsive"></td>
-							</tr>
-							<tr>
-								<th>Terbit</th>
+								<th>TERBIT</th>
 								<td>
 									{!! $promo->status ? '<span class="label label-success">Terbit</span>' : '<span class="label label-warning">Draf</span>' !!}
 								</td>
 							</tr>
 							<tr>
-								<th>Short Description</th>
+								<th>KETERANGAN SINGKAT</th>
 								<td>{{ $promo->short_desc }}</td>
 							</tr>
 							<tr>
-								<th>Description</th>
+								<th>KETERANGAN</th>
 								<td>{!! $promo->description !!}</td>
 							</tr>
 						</table>

@@ -10,7 +10,7 @@ class Lelang extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'name', 'slug', 'embeded', 'path_image', 'icon_image', 'short_desc', 'description', 'status', 'highlight', 'order'
+        'name', 'slug', 'embeded', 'path_image', 'icon_image', 'short_desc', 'description', 'status', 'highlight', 'order', 'notif'
     ];
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at'

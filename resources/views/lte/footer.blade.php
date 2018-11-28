@@ -1,3 +1,3 @@
 <footer class="main-footer">
-	<strong>Copyright &copy; 2017 - {{ Carbon\Carbon::now()->year }} <a href="//nandhief.web.id">nandhief</a>.</strong> All rights reserved.
+	<strong>Copyright &copy; 2018 <a href="//bprmaa.com">BPR MAA</a>.</strong> All rights reserved.
 </footer>

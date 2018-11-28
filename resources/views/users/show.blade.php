@@ -38,10 +38,6 @@
                                     <th>NO HP</th>
                                     <td>{{ $user->broker->no_hp }}</td>
                                 </tr>
-                                <tr>
-                                    <th>FOTO KTP</th>
-                                    <td>{{ $user->broker->foto_ktp }}</td>
-                                </tr>
                             @endif
                             @if ($user->customer)
                                 <tr>
@@ -54,7 +50,7 @@
                                 </tr>
                                 <tr>
                                     <th>FOTO KTP</th>
-                                    <td>{{ $user->customer->foto_ktp }}</td>
+                                    <td><img src="{{ $user->customer->ktp }}" alt="{{ $user->customer->name }}" class="img-responsive"></td>
                                 </tr>
                                 <tr>
                                     <th>PENGAJUAN TABUNGAN</th>
@@ -70,7 +66,7 @@
 				</div>
 			</div>
 			<a href="{{ route('users.index') }}" class="btn btn-flat btn-success"><i class="fa fa-reply"></i> Kembali</a>
-			<a href="{{ route('users.edit', $user->id) }}" class="btn btn-flat btn-warning"><i class="fa fa-edit"></i> Edit</a>
+			{{-- <a href="{{ route('users.edit', $user->id) }}" class="btn btn-flat btn-warning"><i class="fa fa-edit"></i> Edit</a> --}}
 			{{ Form::open(['route' => ['users.destroy', $user->id], 'method' => 'DELETE', 'style' => 'display: inline-block;']) }}
 				<button type="submit" class="btn btn-flat btn-danger" onclick="return confirm('Yakin Hapus Data')"><i class="fa fa-trash"></i> Hapus</button>
 			{{ Form::close() }}

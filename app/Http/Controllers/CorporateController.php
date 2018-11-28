@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Corporate;
 
 class CorporateController extends Controller
 {
@@ -13,8 +15,15 @@ class CorporateController extends Controller
      */
     public function index()
     {
-        //
-        return view('corporate/index');
+        $data = [];
+        $corporates = Corporate::get();
+        if (request()->ajax()) {
+            foreach ($corporates as $key => $value) {
+                $data[] = collect($value)->prepend($key+1, 'no');
+            }
+            return response()->json(compact('data'));
+        }
+        return view('corporate/index', compact('corporates'));
     }
 
     /**
@@ -36,18 +45,19 @@ class CorporateController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $request->validate([
+            'name'       => 'required',
+            'jabatan'    => 'required',
+            'bagian'        => 'required',
+            'path_foto'       => 'required|image'
+        ]);
+        if ($request->hasFile('path_foto')) {
+            $filename = date('YmdHis_') . $request->path_foto->getClientOriginalName();
+            $request->path_foto->move('./storage/original', $filename);
+            $request = new Request(array_merge($request->all(), ['path_foto' => $filename]));
+        }
+        $corporate = Corporate::create($request->all());
+        return redirect()->route('corporates.index')->withSuccess('Data '. $corporate->name . ' berhasil disimpan');
     }
 
     /**
@@ -58,7 +68,9 @@ class CorporateController extends Controller
      */
     public function edit($id)
     {
-        //
+
+        $table = Corporate::findOrFail($id);
+        return view('corporate/edit', ['data' => $table]);
     }
 
     /**
@@ -70,7 +82,20 @@ class CorporateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name'       => 'required',
+            'jabatan'    => 'required',
+            'bagian'        => 'required',
+            'path_foto'       => 'required|image'
+        ]);
+        if ($request->hasFile('path_foto')) {
+            $filename = date('YmdHis_') . $request->path_foto->getClientOriginalName();
+            $request->path_foto->move('./storage/original', $filename);
+            $request = new Request(array_merge($request->all(), ['path_foto' => $filename]));
+        }
+        $corporate = Corporate::find($id);
+        $corporate->update($request->all());
+        return redirect()->route('corporates.index')->withSuccess('Data '. $corporate->name . ' berhasil diupdate');
     }
 
     /**
@@ -81,6 +106,8 @@ class CorporateController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $table = Corporate::findOrFail($id);
+        $table->delete();
+        return redirect()->route('corporates.index')->withSuccess('Data '. $corporate->name . ' berhasil disimpan');
     }
 }

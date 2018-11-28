@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'password', 'api_token', 'status', 'activation'
+        'name', 'email', 'phone', 'password', 'api_token', 'status', 'activation', 'path_foto', 'fcm_token'
     ];
 
     /**
@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'api_token'
+        'password', 'remember_token', 'api_token', 'activation'
     ];
 
     /**
@@ -57,7 +57,7 @@ class User extends Authenticatable
 
     public function getFotoAttribute()
     {
-        return empty($this->path_foto) ? null : asset('storage/files/' . $this->path_foto);
+        return empty($this->path_foto) ? null : asset('storage/original/' . $this->path_foto);
     }
     
     public function broker()

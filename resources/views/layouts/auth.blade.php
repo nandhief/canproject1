@@ -4,7 +4,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>@yield('title', config('app.name'))</title>
-	<meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
 	<link rel="stylesheet" href="{{ url('') }}/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{{ url('') }}/lte/css/AdminLTE.min.css">
 	<link rel="stylesheet" href="{{ url('') }}/plugins/iCheck/square/blue.css">

@@ -17,7 +17,7 @@ class LayananController extends Controller
      */
     public function index()
     {
-        $layanan = Layanan::get();
+        $layanan = Layanan::orderBy('id', 'desc')->get();
         if (request()->ajax()) {
             foreach ($layanan as $key => $value) {
                 $data[] = collect($value)->prepend($key+1, 'no');

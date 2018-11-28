@@ -16,9 +16,9 @@ class CreateCorporatesTable extends Migration
         Schema::create('corporates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('bagian');
             $table->string('jabatan');
             $table->string('path_foto');
-            $table->text('biodata');
             $table->timestamps();
         });
     }
