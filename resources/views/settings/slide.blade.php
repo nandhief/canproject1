@@ -43,9 +43,10 @@
                                         <input type="hidden" name="slide_type" value="" id="slide_type">
                                         <input type="hidden" name="name" value="" id="name">
                                     </div>
+                                    <span class="help-block">Catatan: untuk ukuran gambar slide show adalah 600 pixel <var>x</var> 171 pixel, unduh contoh <a href="{{ asset('storage/files/slider.jpg') }}">slider</a></span>
                                 </div>
                                 <div class="col-md-6">
-                                    <img src="" alt="" class="img-responsive">
+                                    <img src="" alt="" class="img-responsive path_image">
                                 </div>
                             </div>
                         </div>
@@ -157,6 +158,18 @@
     <script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
     <script>
         $(document).ready(function () {
+            var readURL = function (input, target) {
+                if (input[0].files && input[0].files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        target.attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input[0].files[0]);
+                }
+            }
+            $('input[name="path_image"]').change(function () {
+                readURL($(this), $('.path_image'))
+            })
             $('.select').select2();
             $('.select').change(function () {
                 $('#slide_type').val($(this).find(':selected').data('type'));
