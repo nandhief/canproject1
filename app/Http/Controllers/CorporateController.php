@@ -86,7 +86,6 @@ class CorporateController extends Controller
             'name'       => 'required',
             'jabatan'    => 'required',
             'bagian'        => 'required',
-            'path_foto'       => 'required|image'
         ]);
         if ($request->hasFile('path_foto')) {
             $filename = date('YmdHis_') . $request->path_foto->getClientOriginalName();
@@ -106,8 +105,8 @@ class CorporateController extends Controller
      */
     public function destroy($id)
     {
-        $table = Corporate::findOrFail($id);
-        $table->delete();
+        $corporate = Corporate::findOrFail($id);
+        $corporate->delete();
         return redirect()->route('corporates.index')->withSuccess('Data '. $corporate->name . ' berhasil disimpan');
     }
 }

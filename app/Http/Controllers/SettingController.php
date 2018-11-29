@@ -5,7 +5,13 @@ namespace App\Http\Controllers;
 use App\Setting;
 use App\User;
 use App\Promo;
+use App\Layanan;
+use App\Lelang;
+use App\News;
+use App\Product;
 use App\Slide;
+use App\Tabungan;
+use App\Credit;
 use App\Traits\Upload;
 use App\Modul\Firebase;
 use App\Modul\FirebasePush as Push;
@@ -19,8 +25,10 @@ class SettingController extends Controller
     {
         $customers = User::has('customer')->get();
         $brokers = User::has('broker')->get();
+        $tabungan = Tabungan::get();
+        $credit = Credit::get();
         $slider = Slide::whereStatus(true)->orderBy('order')->get();
-        return view('index', compact('customers', 'brokers', 'slider'));
+        return view('index', compact('customers', 'brokers', 'slider', 'tabungan', 'credit'));
     }
 
     public function index()
@@ -113,7 +121,7 @@ class SettingController extends Controller
     public function visi(Request $request)
     {
         $request->validate([
-            'data' => 'required'
+            'data' => 'required',
         ]);
         $visi = Setting::whereTitle('visi')->first();
         $visi->update($request->except('_token'));
@@ -249,6 +257,6 @@ class SettingController extends Controller
                 )
             ]);
         }
-        return response()->json(array_merge(compact('response'), ['success' => 'Berhasil diberitahukan kepada semua customer']));
+        return response()->json(array_merge(compact('response'), ['success' => '[' . strtoupper($request->type) . ']' . $data->name . ' Berhasil diberitahukan kepada semua customer']));
     }
 }

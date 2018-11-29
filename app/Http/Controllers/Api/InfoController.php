@@ -64,7 +64,7 @@ class InfoController extends Controller
      */
     public function listLayanan()
     {
-        $layanan = Layanan::whereStatus(true)->paginate(10);
+        $layanan = Layanan::whereStatus(true)->orderBy('id', 'desc')->paginate(10);
         return json($layanan->makeHidden(['status', 'highlight', 'description', 'path_image', 'icon_image', 'created_at', 'updated_at', 'deleted_at']));
     }
 
@@ -154,8 +154,8 @@ class InfoController extends Controller
      */
     public function listProduct()
     {
-        $dana = Product::whereStatus(true)->whereCategory('dana')->get()->makeHidden(['slug', 'description', 'path_image', 'icon_image', 'hightligh', 'status', 'order', 'created_at', 'updated_at', 'deleted_at']);
-        $kredit = Product::whereStatus(true)->whereCategory('kredit')->get()->makeHidden(['slug', 'description', 'path_image', 'icon_image', 'hightligh', 'status', 'order', 'created_at', 'updated_at', 'deleted_at']);
+        $dana = Product::whereStatus(true)->whereCategory('dana')->orderBy('id', 'desc')->get()->makeHidden(['slug', 'description', 'path_image', 'icon_image', 'hightligh', 'status', 'order', 'created_at', 'updated_at', 'deleted_at']);
+        $kredit = Product::whereStatus(true)->whereCategory('kredit')->orderBy('id', 'desc')->get()->makeHidden(['slug', 'description', 'path_image', 'icon_image', 'hightligh', 'status', 'order', 'created_at', 'updated_at', 'deleted_at']);
         $data = [
             'kode' => 1,
             'pesan' => 'success',
@@ -185,7 +185,7 @@ class InfoController extends Controller
     {
         $vacancies = Vacancy::whereDoesntHave('careers', function ($query) {
             $query->where('user_id', '=', auth()->user()->id);
-        })->where('expired', '>', now())->get();
+        })->where('expired', '>', now())->orderBy('id', 'desc')->get();
         return json($vacancies->makeHidden(['created_at', 'updated_at', 'deleted_at']));
     }
 
@@ -195,9 +195,7 @@ class InfoController extends Controller
      */
     public function vacancy($id)
     {
-        $vacancy = Vacancy::whereDoesntHave('careers', function ($query) {
-            $query->where('user_id', '=', auth()->user()->id);
-        })->where('expired', '>', now())->find($id);
+        $vacancy = Vacancy::where('expired', '>', now())->find($id);
         if ($vacancy) {
             return json($vacancy->makeHidden(['created_at', 'updated_at', 'deleted_at']));
         }
@@ -209,7 +207,7 @@ class InfoController extends Controller
      */
     public function slider()
     {
-        $slider = Slide::get();
+        $slider = Slide::orderBy('order')->get();
         if ($slider) {
             return json($slider->makeHidden(['created_at', 'updated_at', 'deleted_at']));
         }
@@ -230,7 +228,8 @@ class InfoController extends Controller
         $misi = [
             $misi->title => explode(';', $misi->data),
         ];
-        return json(array_merge($sejarah, $visi, $misi));
+        $social = (array) Setting::social();
+        return json(array_merge($sejarah, $visi, $misi, compact('social')));
     }
 
     public function contacts()

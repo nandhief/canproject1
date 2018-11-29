@@ -85,7 +85,7 @@
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        type: 'promo',
+                        type: 'layanan',
                         id: id
                     },
                     beforeSend: function () {
@@ -105,7 +105,7 @@
 						);
                         $('.notif').attr('disabled', false);
                     }
-                })id
+                })
             }
 		});
 	</script>

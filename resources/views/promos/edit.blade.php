@@ -20,11 +20,18 @@
 				<div class="box-body">
 					{{ Form::model($promo, ['route' => ['promos.update', $promo->id], 'method' => 'PUT', 'files' => true]) }}
 					<div class="row">
-						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('name') ? 'has-error' : '' }}">
+						<div class="form-group col-md-6 col-sm-12 {{ $errors->has('name') ? 'has-error' : '' }}">
 							<label for="name">Nama *</label>
 							{{ Form::text('name', old('name'), ['class' => 'form-control', 'autofocus' => true]) }}
 							@if ($errors->has('name'))
 								<span class="help-block">{{ $errors->first('name') }}</span>
+							@endif
+                        </div>
+						<div class="form-group col-md-6 col-sm-12 {{ $errors->has('expired') ? 'has-error' : '' }}">
+							<label for="expired">Expired *</label>
+							{{ Form::text('expired', old('expired'), ['class' => 'form-control date']) }}
+							@if ($errors->has('expired'))
+								<span class="help-block">{{ $errors->first('expired') }}</span>
 							@endif
                         </div>
                     </div>
@@ -81,7 +88,12 @@
 	</div>
 @endsection
 
+@section('css_up')
+    <link rel="stylesheet" href="{{ asset('plugins/datepicker/datepicker3.css') }}">
+@endsection
+
 @section('js')
+    <script src="{{ asset('plugins/datepicker/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('plugins/tinymce/tinymce.min.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -98,6 +110,12 @@
             $('input[name="path_image"]').change(function () {
                 readURL($(this), $('.path_image'))
             })
+            $('.date').datepicker({
+                format: "dd-mm-yyyy",
+                weekStart: 1,
+                startDate: "-infinity",
+                autoclose: true
+            });
             tinymce.init({
                 selector: '.text-editor',
 				statusbar: false,

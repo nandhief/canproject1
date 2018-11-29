@@ -131,13 +131,19 @@ class ApiController extends Controller
             'phone' => 'required|numeric',
             'description' => 'required',
         ]);
+        $user = auth()->user();
+        $vacancy = Vacancy::whereHas('careers', function ($query) use($request, $user) {
+            $query->whereVacancyId($request->vacancy_id)->whereUserId($user->id)->whereStatus(0);
+        })->find($request->vacancy_id);
+        if ($vacancy) {
+            return json('Mohon maaf anda sudah melamar, tunggu kabar dari kami', 'error', 0);
+        }
         if ($request->hasFile('path_resume')) {
             $filename = date('YmdHis_') . $request->path_resume->getClientOriginalName();
             $request->path_resume->move('./storage/original', $filename);
             $request = new Request(array_merge($request->all(), ['path_resume' => $filename]));
         }
-        $vacancy = Vacancy::with('careers')->find($request->vacancy_id);
-        $vacancy->careers()->create(array_merge($request->all(), ['user_id' => auth()->user()->id]));
+        $vacancy->careers()->create(array_merge($request->all(), ['user_id' => $user->id]));
         return json('Terima Kasih, lamaran anda berhasil dikirim');
     }
 

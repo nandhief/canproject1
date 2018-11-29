@@ -52,6 +52,7 @@
 									<th>EMAIL</th>
 									<th>PHONE</th>
 									<th>POSISI</th>
+									<th>TGL DAFTAR</th>
 									<th>STATUS</th>
 									<th data-orderable="false" data-searchable="false">&nbsp;</th>
 								</tr>
@@ -81,7 +82,7 @@
 				},
                 "deferRender": true,
                 columns: [
-                	{ data: 'id' },
+                	{ data: 'no' },
                 	{ data: 'name' },
                 	{ data: 'lokasi' },
                 	{ data: 'jenis' },
@@ -100,7 +101,7 @@
 				},
                 "deferRender": true,
                 columns: [
-                	{ data: 'id' },
+                	{ data: 'no' },
                 	{ data: 'name' },
                 	{
                 		data: null,
@@ -110,6 +111,7 @@
                 	},
                 	{ data: 'phone' },
                 	{ data: 'vacancy.name' },
+                	{ data: 'created_at' },
                 	{
                 		data: null,
                 		render: function (data) {

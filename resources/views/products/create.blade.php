@@ -38,16 +38,6 @@
                         <div class="form-group col-md-6 col-sm-6">
                             <img src="" alt="" class="img-responsive path_image">
                         </div>
-						<div class="form-group col-md-6 col-sm-6 {{ $errors->has('icon_image') ? 'has-error' : '' }}">
-							<label for="icon_image">Gambar *</label>
-							{{ Form::file('icon_image', ['class' => 'form-control']) }}
-							@if ($errors->has('icon_image'))
-								<span class="help-block">{{ $errors->first('icon_image') }}</span>
-							@endif
-                        </div>
-                        <div class="form-group col-md-6 col-sm-6">
-                            <img src="" alt="" class="img-responsive icon_image">
-                        </div>
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('short_desc') ? 'has-error' : '' }}">
 							<label for="short_desc">Short Description <span class="text-muted">(max 255 character)</span></label>
 							{{ Form::textarea('short_desc', old('short_desc'), ['class' => 'form-control', 'style' => 'min-width: 100%; width: 100%; max-width: 100%; height: 100px; min-height: 100px; max-height: 100px;']) }}

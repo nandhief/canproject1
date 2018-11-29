@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('title')
-    Reset Password
+    {{ config('app.name') }} Reset Password
 @stop
 
 @section('content')
@@ -26,7 +26,7 @@
                         <span class="help-block">{{ $errors->first('email') }}</span>
                     @endif
                 </div>
-                <button type="submit" class="btn btn-primary btn-block btn-flat">Send Password Reset Link</button>
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Kirim Link Reset Password</button>
             </form>
         </div>
     </div>

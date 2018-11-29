@@ -82,6 +82,6 @@ class CreditController extends Controller
     public function destroy(Credit $credit)
     {
         $credit->delete();
-        return redirect()->route('credits.index')->withSuccess('Data pengajuan kredit ' . $kredit->customer->name . ' berhasil dihapus');
+        return redirect()->route('credits.index')->withSuccess('Data pengajuan kredit ' . $credit->customer->name . ' berhasil dihapus');
     }
 }

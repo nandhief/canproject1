@@ -93,6 +93,6 @@ class TabunganController extends Controller
     public function destroy(Tabungan $tabungan)
     {
         $tabungan->delete();
-        return redirect()->route('tabungan.index')->withSuccess('Data pengajuan tabungan ' . $kredit->customer->name . ' berhasil dihapus');
+        return redirect()->route('tabungan.index')->withSuccess('Data pengajuan tabungan ' . $tabungan->customer->name . ' berhasil dihapus');
     }
 }

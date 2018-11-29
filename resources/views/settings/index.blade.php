@@ -82,10 +82,7 @@
                                             @endphp
                                             <div class="row">
                                                 <input type="hidden" name="social_id[]" value="{{ $loop->iteration }}">
-                                                <div class="col-xs-1" style="top:20px;">
-                                                    <button type="button" class="btn btn-flat btn-danger" onclick="return remove(this)"><i class="fa fa-trash"></i></button>
-                                                </div>
-                                                <div class="col-xs-11">
+                                                <div class="col-xs-12">
                                                     <div class="form-group col-sm-3">
                                                         <label for="">Sosial Media</label>
                                                         <input type="text" name="social[]" class="form-control" value="{{ $key }}" required>
@@ -103,7 +100,6 @@
                                         @endforeach
                                     </div>
                                     <div class="box-footer">
-                                        <button type="button" class="btn btn-sm btn-flat btn-warning social-add"><i class="fa fa-plus"></i> Sosial Media</button>
                                         <button class="btn btn-sm btn-flat btn-primary pull-right social-save"><i class="fa fa-save"></i> Simpan</button>
                                     </div>
                                     {{ Form::close() }}
@@ -221,7 +217,7 @@
                                     {{ Form::open(['route' => 'settings.misi', 'id' => 'misi']) }}
                                     <div class="box-body misi">
                                         <div class="form-group">
-                                            <label for="">Misi Perusahaan</label>
+                                            <label for="">Misi Perusahaan <small class="text-muted">(Untuk memisah dengan menggunakan tanda <kbd>;</kbd>)</small></label>
                                             {{ Form::textarea('data', $misi->data, ['class' => 'form-control', 'required' => true]) }}
                                         </div>
                                     </div>

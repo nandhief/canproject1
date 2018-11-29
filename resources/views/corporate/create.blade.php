@@ -49,7 +49,7 @@
 					<br>
 					<div class="row">
 						<div class="col-md-6">
-							<a href="{{ url('corporate') }}" class="btn btn-success btn-flat"><i class="fa fa-reply"></i> Kembali</a>
+							<a href="{{ route('corporates.index') }}" class="btn btn-success btn-flat"><i class="fa fa-reply"></i> Kembali</a>
 							<input type="submit" name="simpan" value="Simpan" class="btn btn-primary btn-flat">
 							{{ csrf_field() }}
 						</div>	

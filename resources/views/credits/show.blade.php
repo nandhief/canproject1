@@ -36,13 +36,13 @@
 							<tr>
 								<th>STATUS</th>
 								<td>
-                                    @if (is_null($credit->status))
+                                    @if ($credit->status === null)
                                         <span class="label label-warning">BARU MENGAJUKAN KREDIT</span>
                                     @endif
-                                    @if ($credit->status == 0)
+                                    @if ($credit->status === 0)
                                         <span class="label label-info">MASIH DALAM PROSES</span>
                                     @endif
-                                    @if ($credit->status == 1)
+                                    @if ($credit->status === 1)
                                         <span class="label label-success">PROSES PENGAJUAN SELESAI</span>
                                     @endif
 								</td>

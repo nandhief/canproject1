@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('title')
-    Reset Password
+    {{ config('app.name') }} Reset Password
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
             <img src="{{ asset('logo-MAA.png') }}" alt="BPR MAA" class="img-responsive logo-img">
         </div>
         <div class="login-box-body">
-            <div class="login-title">LOGIN</div>
+            <div class="login-title">Reset Password</div>
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}

@@ -30,26 +30,8 @@
                         <span class="info-box-icon bg-aqua"><i class="fa fa-folder-open"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">PENGAJUAN</span>
-                            <span class="info-box-number">90 <small>Tabungan</small></span>
-                            <span class="info-box-number">90 <small>Kredit</small></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-xs-12">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">CPU Traffic</span>
-                            <span class="info-box-number">90<small>%</small></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-xs-12">
-                    <div class="info-box">
-                        <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
-                        <div class="info-box-content">
-                            <span class="info-box-text">CPU Traffic</span>
-                            <span class="info-box-number">90<small>%</small></span>
+                            <span class="info-box-number">{{ $tabungan->count() }} <small>Tabungan</small></span>
+                            <span class="info-box-number">{{ $credit->count() }} <small>Kredit</small></span>
                         </div>
                     </div>
                 </div>
@@ -80,5 +62,8 @@
 				</div>
 			</div>
 		</div>
+    </div>
+    <div class="row">
+        
     </div>
 @endsection

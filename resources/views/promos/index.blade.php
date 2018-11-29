@@ -27,6 +27,7 @@
 									<th>#</th>
 									<th>NAMA</th>
 									<th>KONTEN</th>
+									<th>EXPIRED</th>
 									<th>PUBLISH</th>
 									<th data-orderable="false" data-searchable="false">&nbsp;</th>
 								</tr>
@@ -63,6 +64,7 @@
                 	{ data: 'no' },
                 	{ data: 'name' },
                 	{ data: 'short_desc' },
+                	{ data: 'expired' },
                 	{
                 		data: null,
                 		render: function (data) {

@@ -51,9 +51,11 @@ class PromoController extends Controller
             'name' => 'required|max:191',
             'short_desc' => 'required',
             'description' => 'required',
+            'expired' => 'required',
         ]);
         $request = $this->saveFile($request);
-        $promo = Promo::create($request->all());
+        $data = array_merge($request->all(), ['expired' => now()->parse($request->expired)->addHours(23)->addMinutes(59)]);
+        $promo = Promo::create($data);
         return redirect()->route('promos.show', $promo->id)->withSuccess('Data berhasil disimpan');
     }
 
@@ -92,23 +94,11 @@ class PromoController extends Controller
             'name' => 'required|max:191',
             'short_desc' => 'required',
             'description' => 'required',
+            'expired' => 'required',
         ]);
         $request = $this->saveFile($request);
-        $promo->update($request->all());
-        if ($promo->status == true) {
-            $push = new Push;
-            $firebase = new Firebase;
-            $push->setTitle('BPR MAA MOBILE');
-            $push->setMessage($promo->name);
-            $push->setImage(null);
-            $push->setIsBackground(FALSE);
-            $push->setPayload("promo");
-            $push->getPush();
-            return $firebase->send(
-                'c2OsCI-mRvY:APA91bE-kjKzAgdBWuSmNQT_Ic3jRT8vG_jJthlbjhKMooaatt28IfvU5_NViY1fuiReXZ5-MNDtPj10lC1EOyeXOyPLeIBisU4fe50E0xrhD_NqIipb25ykt2K03IzXHEPaxAoUZQ8-',
-                $push->getPush()
-            );
-        }
+        $data = array_merge($request->all(), ['expired' => now()->parse($request->expired)->addHours(23)->addMinutes(59)]);
+        $promo->update($data);
         return redirect()->route('promos.show', $promo->id)->withSuccess('Data berhasil diupdate');
     }
 

@@ -10,7 +10,7 @@
 			<img src="{{ asset('logo-MAA.png') }}" alt="BPR MAA" class="img-responsive logo-img">
 		</div>
 		<div class="login-box-body">
-            <div class="login-title">LOGIN</div>
+            <div class="login-title">Login</div>
 			<form action="{{ route('login') }}" method="post">
 				{{ csrf_field() }}
 				<div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">

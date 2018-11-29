@@ -26,6 +26,10 @@
 								<td>{{ $promo->name }}</td>
 							</tr>
 							<tr>
+								<th>EXPIRED</th>
+								<td>{{ $promo->expired }}</td>
+							</tr>
+							<tr>
 								<th>GAMBAR</th>
 								<td><img src="{!! $promo->image !!}" alt="{{ $promo->name }}" class="img-responsive"></td>
 							</tr>

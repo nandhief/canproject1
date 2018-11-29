@@ -13,8 +13,8 @@ class CareerController extends Controller
     {
         $data_careers = [];
         $data_vacancies = [];
-        $careers = Career::with('vacancy')->get();
-        $vacancies = Vacancy::get();
+        $careers = Career::with('vacancy')->orderBy('id', 'desc')->get();
+        $vacancies = Vacancy::orderBy('id', 'desc')->get();
         if (request()->ajax()) {
             foreach ($careers as $key => $value) {
                 $data_careers[] = collect($value)->prepend($key+1, 'no');

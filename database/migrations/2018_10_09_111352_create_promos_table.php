@@ -21,6 +21,7 @@ class CreatePromosTable extends Migration
             $table->string('path_image')->nullable()->default('promo.jpg');
             $table->text('short_desc')->nullable();
             $table->text('description')->nullable();
+            $table->timestamp('expired')->nullable();
             $table->tinyInteger('status')->default(false);
             $table->tinyInteger('notif')->default(false);
             $table->tinyInteger('highlight')->default(false);

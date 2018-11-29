@@ -81,7 +81,7 @@
                     {
                         data: null,
                         render: function (data) {
-                            return '<a href="{{ url('tabungan') }}/' + data.id + '" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Lihat</a> <form method="POST" action="{{ url('tabungan') }}/' + data.id + '/delete" accept-charset="UTF-8" style="display: inline-block;"><input name="_method" type="hidden" value="DELETE"><input name="_token" type="hidden" value="{{ csrf_token()  }}"> <button type="submit" class="btn btn-xs btn-flat btn-danger" onclick="return confirm(\'Anda Yakin Menghapus Data ' + data.customer.user.name + '\')"><i class="fa fa-trash"></i> Hapus</button> </form>';
+                            return '<a href="{{ url('tabungan') }}/' + data.id + '" class="btn btn-xs btn-flat btn-primary"><i class="fa fa-eye"></i> Lihat</a> <form method="POST" action="{{ url('tabungan') }}/' + data.id + '" accept-charset="UTF-8" style="display: inline-block;"><input name="_method" type="hidden" value="DELETE"><input name="_token" type="hidden" value="{{ csrf_token()  }}"> <button type="submit" class="btn btn-xs btn-flat btn-danger" onclick="return confirm(\'Anda Yakin Menghapus Data ' + data.customer.user.name + '\')"><i class="fa fa-trash"></i> Hapus</button> </form>';
                         }
                     }
                 ]
