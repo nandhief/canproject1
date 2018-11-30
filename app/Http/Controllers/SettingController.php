@@ -12,6 +12,7 @@ use App\Product;
 use App\Slide;
 use App\Tabungan;
 use App\Credit;
+use App\Commodity;
 use App\Traits\Upload;
 use App\Modul\Firebase;
 use App\Modul\FirebasePush as Push;
@@ -28,7 +29,11 @@ class SettingController extends Controller
         $tabungan = Tabungan::get();
         $credit = Credit::get();
         $slider = Slide::whereStatus(true)->orderBy('order')->get();
-        return view('index', compact('customers', 'brokers', 'slider', 'tabungan', 'credit'));
+        $news = News::get();
+        $promo = Promo::get();
+        $lelang = Lelang::get();
+        $commodity = Commodity::get();
+        return view('index', compact('customers', 'brokers', 'slider', 'tabungan', 'credit', 'news', 'promo', 'lelang', 'commodity'));
     }
 
     public function index()
@@ -67,9 +72,15 @@ class SettingController extends Controller
     public function social(Request $request)
     {
         foreach ($request->social_id as $key => $value) {
-            if ($request->social[$key] && $request->name[$key] && $request->url[$key]) {
+            if ($request->social[$key] && $request->name[$key] && $request->icon[$key] && $request->url[$key]) {
+                $filename = '';
+                if ($request->hasFile('icon')) {
+                    $filename = date('YmdHis_') . $request->icon[$key]->getClientOriginalName();
+                    $request->icon[$key]->move('./storage/files', $filename);
+                }
                 $data[$request->social[$key]] = [
                     'name' => $request->name[$key],
+                    'icon' => empty($filename) ? '' : asset('storage/files/'.$filename),
                     'url' => $request->url[$key],
                 ];
             }
@@ -78,7 +89,7 @@ class SettingController extends Controller
         $socials->update([
             'data' => json_encode($data),
         ]);
-        return redirect()->route('settings.index')->withSuccess('Update Sosial Media berhasil diperbarui');
+        return redirect()->back()->withSuccess('Update Sosial Media berhasil diperbarui');
     }
 
     public function mail(Request $request)
@@ -153,19 +164,19 @@ class SettingController extends Controller
     public function slider()
     {
         $slide = \DB::select("SELECT id, name, IFNULL(NULL, 'promo') type
-        FROM promos WHERE deleted_at IS NULL
+        FROM promos WHERE status = 1 AND deleted_at IS NULL
         UNION
         SELECT id, name, IFNULL(NULL, 'news') type
-        FROM news WHERE deleted_at IS NULL
+        FROM news WHERE status = 1 AND deleted_at IS NULL
         UNION
         SELECT id, name, IFNULL(NULL, 'lelang') type
-        FROM lelangs WHERE deleted_at IS NULL
+        FROM lelangs WHERE status = 1 AND deleted_at IS NULL
         UNION
         SELECT id, name, IFNULL(NULL, 'layanan') type
-        FROM layanans WHERE deleted_at IS NULL
+        FROM layanans WHERE status = 1 AND deleted_at IS NULL
         UNION
         SELECT id, name, IFNULL(NULL, 'product') type
-        FROM products WHERE deleted_at IS NULL");
+        FROM products WHERE status = 1 AND deleted_at IS NULL");
         $images = Slide::orderBy('status', 'desc')->orderBy('order')->get();
         if (request()->ajax()) {
             foreach ($images as $key => $value) {

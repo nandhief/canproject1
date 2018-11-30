@@ -145,7 +145,7 @@
                     {
                         data: null,
                         render: function (data) {
-                            return '<button class="btn btn-xs btn-flat btn-info" onclick="return edit(' + data.id + ', \'' + data.name + '\', \'' + data.email + '\', ' + data.phone + ')"><i class="fa fa-edit"></i> Edit</button> <button type="submit" class="btn btn-xs btn-flat btn-danger delete' + data.id + '" onclick="return hapus(' + data.id + ')"><i class="fa fa-trash"></i> Hapus</button>';
+                            return '<button class="btn btn-xs btn-flat btn-info" onclick="return edit(' + data.id + ', \'' + data.name + '\', \'' + data.email + '\', ' + data.phone + ')"><i class="fa fa-edit"></i> Edit</button> <form method="POST" action="{{  route('admin.index') }}/' + data.id + '" accept-charset="UTF-8" style="display: inline-block;"><input name="_method" type="hidden" value="DELETE"><input name="_token" type="hidden" value="{{ csrf_token()  }}"> <button type="submit" class="btn btn-xs btn-flat btn-danger" onclick="return confirm(\'Anda Yakin Menghapus Data ' + data.name + '\')"><i class="fa fa-trash"></i> Hapus</button> </form>';
                         }
                     }
                 ]
@@ -222,28 +222,6 @@
                     }
                 })
             })
-            window.hapus = function hapus(id) {
-                $.ajax({
-                    url: '{{ route('admin.index') }}/'+id,
-                    type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token()  }}'
-                    },
-                    beforeSend: function () {
-                        $('.delete'+id).attr('disabled', true);
-                    },success: function (result) {
-                        $('.response').append(
-                            '<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><h4><i class="icon fa fa-check"></i> Berhasil!</h4> ' + result.success + ' </div>'
-                        );
-                        $('.delete').attr('disabled', false);
-                        table.fnReloadAjax();
-                    },
-                    error: function (errors) {
-                        var data = errors.responseJSON.errors
-                        $('.delete'+id).attr('disabled', false);
-                    }
-                })
-            }
 		});
 	</script>
 @endsection

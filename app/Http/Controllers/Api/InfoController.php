@@ -228,16 +228,19 @@ class InfoController extends Controller
         $misi = [
             $misi->title => explode(';', $misi->data),
         ];
-        $social = (array) Setting::social();
-        return json(array_merge($sejarah, $visi, $misi, compact('social')));
+        return json(array_merge($sejarah, $visi, $misi));
     }
 
     public function contacts()
     {
         $cabang = Contact::wherePosisi('cabang')->get();
         $kas = Contact::wherePosisi('kas')->get();
-        $pusat = Contact::wherePosisi('pusat')->first();
-        return json(compact('cabang', 'kas', 'pusat'));
+        $pusat = Contact::wherePosisi('pusat')->get();
+        $socials = (array) Setting::social();
+        foreach ($socials as $key => $value) {
+            $social[] = array_merge(['nama' => $key], (array) $value);
+        }
+        return json(compact('cabang', 'kas', 'pusat', 'social'));
     }
 
     public function corporates()

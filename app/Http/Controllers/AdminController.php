@@ -48,6 +48,6 @@ class AdminController extends Controller
     {
         $admin = User::find($id);
         $admin->delete();
-        return response()->json(['success' => $admin->name . ' berhasil dihapus']);
+        return redirect()->route('admin.index')->withSuccess($admin->name . ' berhasil dihapus');
     }
 }

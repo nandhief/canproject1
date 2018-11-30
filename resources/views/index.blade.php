@@ -19,19 +19,35 @@
                     <div class="info-box">
                         <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">PENGGUNA</span>
-                            <span class="info-box-number">{{ $customers->count() }} <small>Customer</small></span>
+                            <span class="info-box-text">Customer</span>
+                            <span class="info-box-number">{{ $customers->count() }} <small>Orang</small></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Broker</span>
                             <span class="info-box-number">{{ $brokers->count() }} <small>Broker</small></span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-xs-12">
                     <div class="info-box">
-                        <span class="info-box-icon bg-aqua"><i class="fa fa-folder-open"></i></span>
+                        <span class="info-box-icon bg-red"><i class="fa fa-folder-open"></i></span>
                         <div class="info-box-content">
-                            <span class="info-box-text">PENGAJUAN</span>
-                            <span class="info-box-number">{{ $tabungan->count() }} <small>Tabungan</small></span>
-                            <span class="info-box-number">{{ $credit->count() }} <small>Kredit</small></span>
+                            <span class="info-box-text">Tabungan</span>
+                            <span class="info-box-number">{{ $tabungan->count() }} <small></small></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red"><i class="fa fa-folder-open"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">Kredit</span>
+                            <span class="info-box-number">{{ $credit->count() }} <small></small></span>
                         </div>
                     </div>
                 </div>
@@ -44,7 +60,7 @@
 					<div class="pull-right"><a href="{{ route('slide.index') }}" class="btn btn-flat btn-info btn-sm"><i class="fa fa-edit"></i> Edit</a></div>
 				</div>
 				<div class="box-body">
-					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+					<div id="slider" class="carousel slide" data-ride="carousel">
 						<div class="carousel-inner">
 							@foreach ($slider as $slide)
 							<div class="item {{ $loop->iteration == 1 ? 'active' : '' }}">
@@ -52,10 +68,10 @@
 							</div>
 							@endforeach
 						</div>
-						<a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+						<a class="left carousel-control" href="#slider" data-slide="prev">
 							<span class="fa fa-angle-left"></span>
 						</a>
-						<a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+						<a class="right carousel-control" href="#slider" data-slide="next">
 							<span class="fa fa-angle-right"></span>
 						</a>
 					</div>
@@ -64,6 +80,44 @@
 		</div>
     </div>
     <div class="row">
-        
+        <div class="col-md-3 col-xs-6">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="fa fa-newspaper-o"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">News</span>
+                    <span class="info-box-number">{{ $news->where('status', true)->count() }} <small>Aktif</small></span>
+                    <span class="info-box-number">{{ $news->where('status', false)->count() }} <small>Draf</small></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-6">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="fa fa-ticket"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Promo</span>
+                    <span class="info-box-number">{{ $promo->where('status', true)->count() }} <small>Aktif</small></span>
+                    <span class="info-box-number">{{ $promo->where('status', false)->count() }} <small>Draf</small></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-6">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="fa fa-exchange"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Lelang</span>
+                    <span class="info-box-number">{{ $lelang->where('status', true)->count() }} <small>Aktif</small></span>
+                    <span class="info-box-number">{{ $lelang->where('status', false)->count() }} <small>Draf</small></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-6">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="fa fa-line-chart"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Commodity</span>
+                    <span class="info-box-number">{{ $commodity->count() }} <small></small></span>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

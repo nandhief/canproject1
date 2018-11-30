@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Contact;
+use App\Setting;
 
 class ContactController extends Controller
 {
     public function index()
     {
+        $socials = Setting::social();
         $data = [];
         $contacts = Contact::get();
         if (request()->ajax()) {
@@ -18,7 +20,7 @@ class ContactController extends Controller
             }
             return response()->json(compact('data'));
         }
-    	return view('contact.index', compact('contacts'));
+    	return view('contact.index', compact('contacts', 'socials'));
     }
 
     public function create()

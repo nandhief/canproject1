@@ -68,46 +68,6 @@
                             <div class="panel box box-default">
                                 <div class="box-header with-border">
                                     <h4 class="box-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#social" aria-expanded="true" class="">
-                                        Sosial Media
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="social" class="panel-collapse collapse" aria-expanded="true">
-                                    {{ Form::open(['route' => 'settings.social', 'class' => 'social']) }}
-                                    <div class="box-body">
-                                        @foreach ($socials as $key => $social)
-                                            @php
-                                                $social_id = $loop->iteration;
-                                            @endphp
-                                            <div class="row">
-                                                <input type="hidden" name="social_id[]" value="{{ $loop->iteration }}">
-                                                <div class="col-xs-12">
-                                                    <div class="form-group col-sm-3">
-                                                        <label for="">Sosial Media</label>
-                                                        <input type="text" name="social[]" class="form-control" value="{{ $key }}" required>
-                                                    </div>
-                                                    <div class="form-group col-sm-3">
-                                                        <label for="">Nama Akun</label>
-                                                        <input type="text" name="name[]" class="form-control" value="{{ $social->name }}" required>
-                                                    </div>
-                                                    <div class="form-group col-sm-6">
-                                                        <label for="">URL</label>
-                                                        <input type="text" name="url[]" class="form-control" value="{{ $social->url }}" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="box-footer">
-                                        <button class="btn btn-sm btn-flat btn-primary pull-right social-save"><i class="fa fa-save"></i> Simpan</button>
-                                    </div>
-                                    {{ Form::close() }}
-                                </div>
-                            </div>
-                            <div class="panel box box-default">
-                                <div class="box-header with-border">
-                                    <h4 class="box-title">
                                         <a data-toggle="collapse" data-parent="#accordion" href="#mail" class="collapsed" aria-expanded="false">
                                         Mail Server
                                         </a>
@@ -235,17 +195,3 @@
     </div>
 @endsection
 
-@section('js')
-    <script>
-        function remove(data) {
-            $(data).parent().parent().remove()
-        }
-        $(document).ready(function () {
-            var social_id = {!! $social_id !!}
-            $('.social-add').click(function () {
-                social_id += 1;
-                $('.social>.box-body').append('<div class="row"> <div class="col-xs-1" style="top:20px;"> <input type="hidden" name="social_id[]" value="'+social_id+'"> <button type="button" class="btn btn-flat btn-danger" onclick="return remove(this)"><i class="fa fa-trash"></i></button> </div> <div class="col-xs-11"> <div class="form-group col-sm-3"> <label for="">Sosial Media</label> <input type="text" name="social[]" class="form-control" required> </div> <div class="form-group col-sm-3"> <label for="">Nama Akun</label> <input type="text" name="name[]" class="form-control" required> </div> <div class="form-group col-sm-6"> <label for="">URL</label> <input type="text" name="url[]" class="form-control" required> </div> </div> </div>')
-            })
-        })
-    </script>
-@endsection
