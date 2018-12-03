@@ -13,6 +13,7 @@ use App\Slide;
 use App\Tabungan;
 use App\Credit;
 use App\Commodity;
+use App\Valas;
 use App\Traits\Upload;
 use App\Modul\Firebase;
 use App\Modul\FirebasePush as Push;
@@ -33,7 +34,8 @@ class SettingController extends Controller
         $promo = Promo::get();
         $lelang = Lelang::get();
         $commodity = Commodity::get();
-        return view('index', compact('customers', 'brokers', 'slider', 'tabungan', 'credit', 'news', 'promo', 'lelang', 'commodity'));
+        $valas = Valas::get();
+        return view('index', compact('customers', 'brokers', 'slider', 'tabungan', 'credit', 'news', 'promo', 'lelang', 'commodity', 'valas'));
     }
 
     public function index()

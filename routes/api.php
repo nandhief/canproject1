@@ -46,12 +46,4 @@ Route::middleware('auth:api')->group(function () {
 Route::post('register', 'ApiController@register');
 Route::post('forgot', 'ApiController@forgot');
 Route::post('login', 'ApiController@login');
-
-Route::post('upload', function (Request $request) {
-    if ($request->hasFile('file')) {
-        $filename = date('YmdHsi_') . $request->file->getClientOriginalName();
-        return json($filename);
-    } else {
-        return json('GAGAL UPLOAD', 'error', 0);
-    }
-});
+Route::post('otp', 'ApiController@login_otp');

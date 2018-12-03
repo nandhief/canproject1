@@ -38,7 +38,9 @@
                         <span class="info-box-icon bg-red"><i class="fa fa-folder-open"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Tabungan</span>
-                            <span class="info-box-number">{{ $tabungan->count() }} <small></small></span>
+                            <span class="info-box-number">{{ $tabungan->where('status', null)->count() }} <small>Baru</small></span>
+                            <span class="info-box-number">{{ $tabungan->where('status', false)->count() }} <small>Proses</small></span>
+                            <span class="info-box-number">{{ $tabungan->where('status', true)->count() }} <small>Selesai</small></span>
                         </div>
                     </div>
                 </div>
@@ -47,7 +49,9 @@
                         <span class="info-box-icon bg-red"><i class="fa fa-folder-open"></i></span>
                         <div class="info-box-content">
                             <span class="info-box-text">Kredit</span>
-                            <span class="info-box-number">{{ $credit->count() }} <small></small></span>
+                            <span class="info-box-number">{{ $credit->where('status', null)->count() }} <small>Baru</small></span>
+                            <span class="info-box-number">{{ $credit->where('status', false)->count() }} <small>Proses</small></span>
+                            <span class="info-box-number">{{ $credit->where('status', true)->count() }} <small>Selesai</small></span>
                         </div>
                     </div>
                 </div>
@@ -114,10 +118,19 @@
             <div class="info-box">
                 <span class="info-box-icon bg-yellow"><i class="fa fa-line-chart"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Commodity</span>
-                    <span class="info-box-number">{{ $commodity->count() }} <small></small></span>
+                    <span class="info-box-text">Informasi</span>
+                    <span class="info-box-number">{{ $commodity->count() }} <small>Commodity</small></span>
+                    <span class="info-box-number">{{ $valas->count() }} <small>Kurs Valas</small></span>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('css_down')
+    <style>
+    .info-box-number {
+        font-size: 14px;
+    }
+    </style>
 @endsection

@@ -29,6 +29,14 @@ class ApiController extends Controller
             'email' => 'required|email|max:191',
             'phone' => 'required|numeric',
             'password' => 'required|max:191|min:6',
+        ], [
+            'name.required' => 'Nama tidak boleh kosong',
+            'email.required' => 'Email tidak boleh kosong',
+            'email.email' => 'Format Email harus benar',
+            'phone.required' => 'No ponsel tidak boleh kosong',
+            'phone.numeric' => 'No ponsel harus berupa angka',
+            'password.required' => 'Password tidak boleh kosong',
+            'password.min' => 'Password minimal harus 6 karakter',
         ]);
         if (User::whereEmail($request->email)->first()) return json('Email sudah pernah dipakai', 'error', 0);
         if (User::wherePhone($request->phone)->first()) return json('Nomer Phone sudah pernah dipakai', 'error', 0);
@@ -36,7 +44,8 @@ class ApiController extends Controller
         if ($user) {
             $user->customer()->create([]);
             \Mail::to($user->email, $user->name)->send(new RegisterMail($user));
-            return json('Terima kasih sudah mendaftar, silakan buka email anda untuk melakukan aktivasi akun');
+            $user->update(['api_token' => str_random(40), 'fcm_token' => $request->fcm_token]);
+            return json(collect($user->makeHidden(['id', 'admin', 'activation', 'created_at', 'updated_at', 'deleted_at', 'path_foto']))->prepend($user->token, 'token')->prepend($user->customer->id, 'customer_id')->prepend('Terima kasih sudah mendaftar, silakan buka email anda untuk melakukan aktivasi akun', 'message'));
         } else {
             return json('Terjadi kesalahan saat mendaftar', 'error', 0);
         }
@@ -66,6 +75,23 @@ class ApiController extends Controller
             }
         }
         return json('Maaf email atau password salah', 'error', 0);
+    }
+
+    public function login_otp(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required',
+            'fcm_token' => 'required',
+        ], [
+            'phone.required' => 'No ponsel tidak boleh kosong',
+            'fcm_token.required' => 'FCM Token tidak boleh kosong',
+        ]);
+        $user = User::with(['customer'])->where('phone', $request->phone)->first();
+        if ($user) {
+            $user->update(['api_token' => str_random(40), 'fcm_token' => $request->fcm_token]);
+            return json(collect($user->makeHidden(['id', 'admin', 'activation', 'created_at', 'updated_at', 'deleted_at', 'path_foto']))->prepend($user->token, 'token')->prepend($user->customer->id, 'customer_id'));
+        }
+        return json('Nomor salah', 'error', 0);
     }
 
     /**
