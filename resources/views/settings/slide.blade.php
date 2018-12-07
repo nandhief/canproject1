@@ -43,7 +43,7 @@
                                         <input type="hidden" name="slide_type" value="" id="slide_type">
                                         <input type="hidden" name="name" value="" id="name">
                                     </div>
-                                    <span class="help-block">Catatan: untuk ukuran gambar slide show adalah 600 pixel <var>x</var> 171 pixel, unduh contoh <a href="{{ asset('storage/files/slider.jpg') }}">slider</a></span>
+                                    <span class="help-block">Catatan: untuk ukuran gambar slide show adalah 1188 pixel <var>x</var> 605 pixel, unduh contoh <a href="{{ asset('storage/files/slider.jpg') }}">slider</a></span>
                                 </div>
                                 <div class="col-md-6">
                                     <img src="" alt="" class="img-responsive path_image">
