@@ -36,21 +36,25 @@
                                 </tr>
                                 <tr>
                                     <th>NO HP</th>
-                                    <td>{{ $user->broker->no_hp }}</td>
+                                    <td>{{ $user->phone }}</td>
                                 </tr>
                             @endif
                             @if ($user->customer)
+                                <tr>
+                                    <th>FOTO PROFILE</th>
+                                    <td><img src="{{ $user->foto }}" alt="{{ $user->name }}" class="img-responsive"></td>
+                                </tr>
                                 <tr>
                                     <th>ALAMAT</th>
                                     <td>{{ $user->customer->alamat }}</td>
                                 </tr>
                                 <tr>
                                     <th>NO HP</th>
-                                    <td>{{ $user->customer->no_hp }}</td>
+                                    <td>{{ $user->phone }}</td>
                                 </tr>
                                 <tr>
                                     <th>FOTO KTP</th>
-                                    <td><img src="{{ $user->customer->ktp }}" alt="{{ $user->customer->name }}" class="img-responsive"></td>
+                                    <td><img src="{{ $user->customer->ktp }}" alt="{{ $user->name }}" class="img-responsive"></td>
                                 </tr>
                                 <tr>
                                     <th>PENGAJUAN TABUNGAN</th>

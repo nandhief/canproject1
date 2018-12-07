@@ -49,11 +49,11 @@
 								<thead>
 									<tr>
 										<th data-searchable="false">#</th>
+										<th>FOTO</th>
 										<th>NAMA</th>
 										<th>EMAIL</th>
 										<th>NO HP</th>
 										<th>ALAMAT</th>
-										<th>FOTO KTP</th>
 										<th>PENGAJUAN</th>
 										<th data-orderable="false" data-searchable="false">&nbsp;</th>
 									</tr>
@@ -126,6 +126,12 @@
                 	{ 
                 		data: null,
                 		render: function (data) {
+                			return '<img src="' + data.foto + '" width="100px">';
+                		}
+                	},
+                	{ 
+                		data: null,
+                		render: function (data) {
                 			return data.name;
                 		}
                 	},
@@ -150,13 +156,7 @@
                 	{ 
                 		data: null,
                 		render: function (data) {
-                			return '<img src="' + data.customer.ktp + '" width="100px">';
-                		}
-                	},
-                	{ 
-                		data: null,
-                		render: function (data) {
-                			return (data.customer.tabungan == 0 ? '' : '<span class="label label-success">Tabungan</span> ') + (data.customer.kredit == 0 ? '' : ' <span class="label label-info">Kredit</span>');
+                			return (data.customer.tabungan_status == 0 ? '' : '<span class="label label-success">Tabungan</span> ') + (data.customer.credit_status == 0 ? '' : ' <span class="label label-info">Kredit</span>');
                 		}
                 	},
                     { 

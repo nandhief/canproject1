@@ -185,9 +185,12 @@ class ApiController extends Controller
             'email' => 'required|email',
         ]);
         if ($request->hasFile('foto_ktp')) {
+            if (substr($request->phone, 0, 2) == '08') {
+                $phone = '+62' . substr($request->phone, 1);
+            }
             $filename = date('YmdHis_') . $request->foto_ktp->getClientOriginalName();
             $request->foto_ktp->move('./storage/original', $filename);
-            $request = new Request(array_merge($request->all(), ['foto_ktp' => $filename]));
+            $request = new Request(array_merge($request->all(), ['foto_ktp' => $filename, 'alamat' => $request->address, 'phone' => $phone]));
         }
         return $request;
     }
@@ -201,7 +204,8 @@ class ApiController extends Controller
     {
         $request = $this->validateCreditTabungan($request);
         $customer = Customer::find(auth()->user()->customer->id);
-        $customer->update($request->only('foto_ktp'));
+        $customer->update($request->only('foto_ktp', 'alamat'));
+        $customer->user()->update($request->except('foto_ktp', 'alamat'));
         if ($customer->credit) {
             return json('Mohon maaf anda sudah melakukan pengajuan kredit, mohon tunggu proses dari kami', 'error', 0);
         }
@@ -221,6 +225,7 @@ class ApiController extends Controller
         $request = $this->validateCreditTabungan($request);
         $customer = Customer::find(auth()->user()->customer->id);
         $customer->update($request->only('foto_ktp'));
+        $customer->user()->update($request->except('foto_ktp'));
         if ($customer->tabungan) {
             return json('Mohon maaf anda sudah melakukan pengajuan tabungan, mohon tunggu proses dari kami', 'error', 0);
         }
