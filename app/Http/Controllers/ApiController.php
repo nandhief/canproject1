@@ -158,10 +158,8 @@ class ApiController extends Controller
             'description' => 'required',
         ]);
         $user = auth()->user();
-        $vacancy = Vacancy::whereHas('careers', function ($query) use($request, $user) {
-            $query->whereVacancyId($request->vacancy_id)->whereUserId($user->id)->whereStatus(0);
-        })->find($request->vacancy_id);
-        if ($vacancy) {
+        $vacancy = Vacancy::find($request->vacancy_id);
+        if ($vacancy->careers()->whereUserId($user->id)->whereStatus(0)->first()) {
             return json('Mohon maaf anda sudah melamar, tunggu kabar dari kami', 'error', 0);
         }
         if ($request->hasFile('path_resume')) {
