@@ -28,7 +28,7 @@
 		<div class="col-xs-12">
 			<div class="box">
 				<div class="box-header">
-					<h3>Edit Kontak</h3>
+                    <h3>Edit Kontak</h3>
 				</div>
 				<div class="box-body">
 					<form method="POST" action="{{ route('contacts.update', $data->id) }}">
@@ -37,14 +37,14 @@
 							<label>Posisi *</label>
 							<select name="posisi" id="" class="select2 form-control">
                                 <option value="">Pilih Posisi</option>
-                                <option value="pusat" {{ $data->posisi == 'pusat' ? 'selected' : '' }}>Kantor Pusat</option>
-                                <option value="cabang" {{ $data->posisi == 'cabang' ? 'selected' : '' }}>Kantor Cabang</option>
-                                <option value="kas" {{ $data->posisi == 'kas' ? 'selected' : '' }}>Kantor Kas</option>
+                                <option value="pusat" {{ $data->posisi == 'PUSAT' ? 'selected' : '' }}>Kantor Pusat</option>
+                                <option value="cabang" {{ $data->posisi == 'CABANG' ? 'selected' : '' }}>Kantor Cabang</option>
+                                <option value="kas" {{ $data->posisi == 'KAS' ? 'selected' : '' }}>Kantor Kas</option>
                             </select>
 						</div>
 						<div class="col-md-5">
 							<label>Nama *</label>
-							<input type="text" class="form-control" name="nama" value="{{ $data->name }}">
+							<input type="text" class="form-control" name="name" value="{{ $data->name }}">
 						</div>
 						<div class="col-md-5">
 							<label>telp *</label>
@@ -53,13 +53,9 @@
 					</div>
 					<br>
 					<div class="row">
-						<div class="col-md-8">
+						<div class="col-md-12">
 							<label>Alamat *</label>
 							<input type="text" class="form-control" name="alamat" value="{{ $data->alamat }}">
-						</div>
-						<div class="col-md-4">
-							<label>Website *</label>
-							<input type="text" class="form-control" name="website" value="{{ $data->website }}">
 						</div>
 					</div>
 					<br>					
@@ -82,8 +78,8 @@
 					<br>
 					<div class="row">
 						<div class="col-md-6">
-							<a href="{{ url('contacts') }}" class="btn btn-success btn-flat"><i class="fa fa-reply"></i> Kembali</a>
-							<input type="submit" name="submit" value="Update" class="btn btn-primary btn-flat">
+                            <a href="{{ url('contacts') }}" class="btn btn-success btn-flat"><i class="fa fa-reply"></i> Kembali</a>
+                            <button type="submit" class="btn btn-flat btn-primary"><i class="fa fa-save"></i> Update</button>
       						<input type="hidden" name="_method" value="PUT">
       						{{ csrf_field() }}
 						</div>	

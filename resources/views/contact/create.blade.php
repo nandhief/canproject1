@@ -53,13 +53,9 @@
 					</div>
 					<br>
 					<div class="row">
-						<div class="col-md-8">
+						<div class="col-md-12">
 							<label>Alamat *</label>
 							<input type="text" class="form-control" name="alamat" placeholder="Alamat">
-						</div>
-						<div class="col-md-4">
-							<label>Website *</label>
-							<input type="text" class="form-control" name="website" placeholder="Website">
 						</div>
 					</div>
 					<br>					

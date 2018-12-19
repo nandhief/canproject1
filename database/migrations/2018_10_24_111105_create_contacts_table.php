@@ -18,7 +18,6 @@ class CreateContactsTable extends Migration
             $table->string('name');
             $table->string('alamat');
             $table->string('telp');
-            $table->string('media_sosial');
             $table->string('latitude');
             $table->string('longitude');
             $table->timestamps();

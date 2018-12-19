@@ -38,7 +38,7 @@
                                         <input type="hidden" name="social_id[]" value="{{ $loop->iteration }}">
                                         <div class="form-group col-sm-10">
                                             <label for="">Icon Sosial Media</label>
-                                            <input type="file" name="icon[]" class="form-control {{ $key }}" required>
+                                            <input type="file" name="icon[]" class="form-control {{ $key }}">
                                         </div>
                                         <div class="form-group col-sm-2">
                                             <img src="{!! $social->icon !!}" alt="" class="img-responsive icon-{{ $key }}">
