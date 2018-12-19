@@ -183,10 +183,21 @@ class ApiController extends Controller
             'address' => 'required',
             'phone' => 'required|numeric',
             'email' => 'required|email',
+        ], [
+            'foto_ktp.required' =>  'Foto KTP Tidak boleh kosong',
+            'foto_ktp.image' =>  'Foto KTP Harus gambar',
+            'name.required' =>  'Nama Tidak boleh kosong',
+            'alamat.required' =>  'Alamat Tidak boleh kosong',
+            'phone.required' =>  'No Ponsel Tidak boleh kosong',
+            'phone.numeric' =>  'No Ponsel Hanya angka',
+            'email.required' =>  'Email Tidak boleh kosong',
+            'email.email' =>  'Email harus benar',
         ]);
         if ($request->hasFile('foto_ktp')) {
             if (substr($request->phone, 0, 2) == '08') {
                 $phone = '+62' . substr($request->phone, 1);
+            } else {
+                $phone = $request->phone;
             }
             $filename = date('YmdHis_') . $request->foto_ktp->getClientOriginalName();
             $request->foto_ktp->move('./storage/original', $filename);
@@ -207,7 +218,7 @@ class ApiController extends Controller
         $customer->update($request->only('foto_ktp', 'alamat'));
         $customer->user()->update($request->except('foto_ktp', 'alamat'));
         if ($customer->credit) {
-            return json('Mohon maaf anda sudah melakukan pengajuan kredit, mohon tunggu proses dari kami', 'error', 0);
+            return json('Maaf, Anda sudah melakukan pengajuan kredit. Mohon tunggu proses dari tim Kami', 'error', 0);
         }
         $history = new History(['description' => 'Pengajuan Kredit']);
         $credit = $customer->credit()->create([]);
@@ -227,7 +238,7 @@ class ApiController extends Controller
         $customer->update($request->only('foto_ktp'));
         $customer->user()->update($request->except('foto_ktp'));
         if ($customer->tabungan) {
-            return json('Mohon maaf anda sudah melakukan pengajuan tabungan, mohon tunggu proses dari kami', 'error', 0);
+            return json('Maaf, Anda sudah melakukan pengajuan tabungan. Mohon tunggu proses dari tim Kami', 'error', 0);
         }
         $history = new History(['description' => 'Pengajuan Tabungan']);
         $tabungan = $customer->tabungan()->create([]);
