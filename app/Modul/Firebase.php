@@ -5,9 +5,10 @@ namespace App\Modul;
 class Firebase
 {
     // sending push message to single user by firebase reg id
-    public function send($to, $message) {
+    public function send($to, $notif, $message) {
         $fields = array(
             'to' => $to,
+            'notification' => $notif,
             'data' => $message,
         );
         return $this->sendPushNotification($fields);

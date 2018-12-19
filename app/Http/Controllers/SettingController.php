@@ -63,7 +63,7 @@ class SettingController extends Controller
             if (password_verify($request->oldpassword, $user->password)) {
                 $user->update(array_merge($request->all(), ['password' => $request->newpassword]));
             } else {
-                return redirect()->back()->withErrors('Mohon maaf password lama anda tidak sesuai dengan database, periksa kembali password anda');
+                return redirect()->back()->withInput($request->input())->withErrors('Mohon maaf password lama anda tidak sesuai dengan database, periksa kembali password anda');
             }
         } else {
             $user->update($request->all());
@@ -73,21 +73,22 @@ class SettingController extends Controller
 
     public function social(Request $request)
     {
+        $data = [];
+        $socials = Setting::whereTitle('social')->first();
         foreach ($request->social_id as $key => $value) {
-            if ($request->social[$key] && $request->name[$key] && $request->icon[$key] && $request->url[$key]) {
+            if ($request->social[$key] && $request->name[$key] && $request->url[$key]) {
                 $filename = '';
-                if ($request->hasFile('icon')) {
+                if (isset($request->icon[$key])) {
                     $filename = date('YmdHis_') . $request->icon[$key]->getClientOriginalName();
                     $request->icon[$key]->move('./storage/files', $filename);
                 }
                 $data[$request->social[$key]] = [
                     'name' => $request->name[$key],
-                    'icon' => empty($filename) ? '' : asset('storage/files/'.$filename),
+                    'icon' => empty($filename) ? json_decode($socials->data)->{$request->social[$key]}->icon : asset('storage/files/'.$filename),
                     'url' => $request->url[$key],
                 ];
             }
         }
-        $socials = Setting::whereTitle('social')->first();
         $socials->update([
             'data' => json_encode($data),
         ]);
@@ -165,6 +166,7 @@ class SettingController extends Controller
 
     public function slider()
     {
+        $data = [];
         $slide = \DB::select("SELECT id, name, IFNULL(NULL, 'promo') type
         FROM promos WHERE status = 1 AND deleted_at IS NULL
         UNION
@@ -255,7 +257,10 @@ class SettingController extends Controller
                 break;
         }
         $data->update(['notif' => true]);
-        $push->setTitle('BPR MAA MOBILE');
+        $notification = [
+            'body' => $data->name,
+        ];
+        $push->setTitle('BPR MAA MOBILE :: ' . strtoupper($request->type));
         $push->setMessage($data->name);
         $push->setImage(null);
         $push->setIsBackground(FALSE);
@@ -266,6 +271,7 @@ class SettingController extends Controller
                 'email' => $user->email,
                 'notification' => $firebase->send(
                     $user->fcm_token,
+                    $notification,
                     $push->getPush()
                 )
             ]);

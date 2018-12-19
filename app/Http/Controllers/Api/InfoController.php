@@ -207,9 +207,9 @@ class InfoController extends Controller
      */
     public function slider()
     {
-        $slider = Slide::orderBy('order')->get();
+        $slider = Slide::whereStatus(true)->orderBy('order')->get();
         if ($slider) {
-            return json($slider->makeHidden(['created_at', 'updated_at', 'deleted_at']));
+            return json($slider->makeHidden(['id', 'path_image', 'order', 'status', 'created_at', 'updated_at', 'deleted_at']));
         }
         return json([], 'error', 1);
     }
@@ -226,7 +226,7 @@ class InfoController extends Controller
         ];
         $misi = Setting::misi();
         $misi = [
-            $misi->title => explode(';', $misi->data),
+            $misi->title => explode(';', trim(preg_replace('/\s\s+/', '', (substr($misi->data, -1) == ';' ? substr($misi->data, 0, -1) : $misi->data)))),
         ];
         return json(array_merge($sejarah, $visi, $misi));
     }
@@ -238,7 +238,7 @@ class InfoController extends Controller
         $pusat = Contact::wherePosisi('pusat')->get();
         $socials = (array) Setting::social();
         foreach ($socials as $key => $value) {
-            $social[] = array_merge(['nama' => $key], (array) $value);
+            $social[] = array_merge(['nama' => ucwords($key)], (array) $value);
         }
         return json(compact('cabang', 'kas', 'pusat', 'social'));
     }

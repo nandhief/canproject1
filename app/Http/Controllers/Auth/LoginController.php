@@ -60,9 +60,11 @@ class LoginController extends Controller
 
             return $this->sendLockoutResponse($request);
         }
-
         if ($this->attemptLogin($request)) {
-            return $this->sendLoginResponse($request);
+            if (auth()->user()->admin) {
+                return $this->sendLoginResponse($request);
+            }
+            $this->guard()->logout();
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
