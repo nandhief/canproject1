@@ -28,14 +28,15 @@
 							@endif
 						</div>
 						<div class="form-group col-md-6 col-sm-6 {{ $errors->has('path_image') ? 'has-error' : '' }}">
-							<label for="path_image">Gambar *</label>
-							{{ Form::file('path_image', ['class' => 'form-control']) }}
+							<label for="path_image">Gambar<span class="text-muted">(Bisa memilih gambar lebih dari satu)</span> *</label>
+							{{ Form::file('path_image[]', ['class' => 'form-control', 'multiple' => true]) }}
 							@if ($errors->has('path_image'))
 								<span class="help-block">{{ $errors->first('path_image') }}</span>
 							@endif
                         </div>
                         <div class="form-group col-md-6 col-sm-6">
-                            <img src="" alt="" class="img-responsive path_image">
+                            <div class="row path_image">
+                            </div>
                         </div>
 						<div class="form-group col-md-12 col-sm-12 {{ $errors->has('short_desc') ? 'has-error' : '' }}">
 							<label for="short_desc">Short Description <span class="text-muted">(max 255 character)</span></label>
@@ -81,21 +82,20 @@
     <script src="{{ asset('plugins/tinymce/tinymce.min.js') }}"></script>
     <script>
         $(document).ready(function() {
-            var readURL = function (input, target) {
-                console.log(input[0].files[0])
-                if (input[0].files && input[0].files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        target.attr('src', e.target.result);
+            var readURL = function (input) {
+                $.each(input[0].files, function (i, val) {
+                    if (input[0].files[i]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('.path_image').append('<div class="col-md-6 col-sm-6"><img src="'+e.target.result+'" alt="" class="img-responsive"></div>');
+                        }
+                        reader.readAsDataURL(input[0].files[i]);
                     }
-                    reader.readAsDataURL(input[0].files[0]);
-                }
+                })
             }
-            $('input[name="path_image"]').change(function () {
-                readURL($(this), $('.path_image'))
-            })
-            $('input[name="icon_image"]').change(function () {
-                readURL($(this), $('.icon_image'))
+            $('input[name="path_image[]"]').change(function () {
+                $('.path_image').empty();
+                readURL($(this));
             })
             tinymce.init({
                 selector: '.text-editor',

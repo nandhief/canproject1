@@ -108,7 +108,7 @@ class InfoController extends Controller
     public function listLelang()
     {
         $lelang = Lelang::whereStatus(true)->orderBy('id', 'desc')->paginate(10);
-        return json($lelang->makeHidden(['slug', 'path_image', 'icon_image', 'description', 'hightligh', 'status', 'order', 'created_at', 'updated_at', 'deleted_at']));
+        return json($lelang->makeHidden(['slug', 'icon_image', 'description', 'hightligh', 'status', 'order', 'created_at', 'updated_at', 'deleted_at']));
     }
 
     /**

@@ -33,7 +33,13 @@
 							</tr>
 							<tr>
 								<th>GAMBAR</th>
-								<td><img src="{!! $lelang->image !!}" alt="{{ $lelang->name }}" class="img-responsive"></td>
+								<td>
+                                    <div class="row">
+                                        @foreach ($lelang->image as $image)
+                                            <div class="col-md-6"><img src="{!! $image !!}" alt="{{ $lelang->name }}" class="img-responsive"></div>
+                                        @endforeach
+                                    </div>
+                                </td>
 							</tr>
 							<tr>
 								<th>KETERANGAN SINGKAT</th>

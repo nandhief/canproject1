@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 
 class LelangController extends Controller
 {
-    use Upload;
-    
     /**
      * Display a listing of the resource.
      *
@@ -50,7 +48,14 @@ class LelangController extends Controller
             'short_desc' => 'required',
             'description' => 'required',
         ]);
-        $request = $this->saveFile($request);
+        if ($request->path_image) {
+            foreach ($request->path_image as $key => $image) {
+                $filename = date('YmdHmi_') . $request->path_image[$key]->getClientOriginalName();
+                $request->path_image[$key]->move('./storage/files', $filename);
+                $data[] = $filename;
+            }
+            $request = new Request(array_merge($request->all(), ['path_image' => implode('|', $data)]));
+        }
         $lelang = Lelang::create($request->all());
         return redirect()->route('lelang.show', $lelang->id)->withSuccess('Data berhasil disimpan');
     }
@@ -91,7 +96,14 @@ class LelangController extends Controller
             'short_desc' => 'required',
             'description' => 'required',
         ]);
-        $request = $this->saveFile($request);
+        if ($request->path_image) {
+            foreach ($request->path_image as $key => $image) {
+                $filename = date('YmdHmi_') . $request->path_image[$key]->getClientOriginalName();
+                $request->path_image[$key]->move('./storage/files', $filename);
+                $data[] = $filename;
+            }
+            $request = new Request(array_merge($request->all(), ['path_image' => implode('|', $data)]));
+        }
         $lelang->update($request->all());
         return redirect()->route('lelang.show', $lelang->id)->withSuccess('Data berhasil diupdate');
     }
