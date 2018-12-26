@@ -10,12 +10,12 @@ class Lelang extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'name', 'slug', 'embeded', 'path_image', 'icon_image', 'short_desc', 'description', 'status', 'highlight', 'order', 'notif'
+        'name', 'slug', 'embeded', 'path_image', 'short_desc', 'description', 'status', 'highlight', 'order', 'notif'
     ];
     protected $dates = [
         'created_at', 'updated_at', 'deleted_at'
     ];
-    protected $appends = ['image', 'icon'];
+    protected $appends = ['image'];
 
     public static function boot()
     {
@@ -32,11 +32,13 @@ class Lelang extends Model
 
     public function getImageAttribute()
     {
-        return empty($this->path_image) ? null : asset('storage/files/' . $this->path_image);
-    }
-
-    public function getIconAttribute()
-    {
-        return empty($this->icon_image) ? null : asset('storage/files/' . $this->icon_image);
+        if ($this->path_image) {
+            $images = explode('|', $this->path_image);
+            foreach ($images as $image) {
+                $data[] = asset('storage/files/' . $image);
+            }
+            return $data;
+        }
+        return null;
     }
 }
