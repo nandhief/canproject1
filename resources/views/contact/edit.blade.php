@@ -33,7 +33,7 @@
 				<div class="box-body">
 					<form method="POST" action="{{ route('contacts.update', $data->id) }}">
 					<div class="row">
-						<div class="col-md-2">
+						<div class="col-md-4">
 							<label>Posisi *</label>
 							<select name="posisi" id="" class="select2 form-control">
                                 <option value="">Pilih Posisi</option>
@@ -42,13 +42,20 @@
                                 <option value="kas" {{ $data->posisi == 'KAS' ? 'selected' : '' }}>Kantor Kas</option>
                             </select>
 						</div>
-						<div class="col-md-5">
+						<div class="col-md-8">
 							<label>Nama *</label>
 							<input type="text" class="form-control" name="name" value="{{ $data->name }}">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<div class="col-md-6">
+							<label>Nama Pimpinan *</label>
+							<input type="text" class="form-control" name="kepala" value="{{ $data->kepala }}" placeholder="Nama Pimpinan Pusat/Cabang/Kas">
 						</div>
-						<div class="col-md-5">
-							<label>telp *</label>
-							<input type="text" class="form-control" name="telp" value="{{ $data->telp }}">
+						<div class="col-md-6">
+							<label>Telephone *</label>
+							<input type="text" class="form-control" name="telp" value="{{ $data->telp }}" placeholder="Telephone">
 						</div>
 					</div>
 					<br>

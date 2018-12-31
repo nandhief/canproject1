@@ -61,7 +61,9 @@
 									<th>BELI</th>
 									<th>JUAL</th>
 									<th>BELI LAMA</th>
-									<th>JUAL LAMA</th>
+                                    <th>JUAL LAMA</th>
+                                    <th>STATUS</th>
+                                    <th>TGL PERBARUI</th>
 									<th data-orderable="false" data-searchable="false">&nbsp;</th>
 								</tr>
 							</thead>
@@ -159,6 +161,24 @@
                 	{ data: 'jual' },
                 	{ data: 'beli_lama' },
                 	{ data: 'jual_lama' },
+                    {
+                        data: null,
+                        render: function (data) {
+                            var status = data.buy > data.old_buy ? '+' : '-'
+                            var selisih = data.buy > data.old_buy ? (data.buy - data.old_buy) : (data.old_buy - data.buy)
+                            var color = 'red'
+                            if (status == '+') {
+                                color = 'green'
+                            }
+                            if (selisih == 0) {
+                                status = '='
+                                selisih = ''
+                                color = 'muted'
+                            }
+                            return '<div class="text-' + color + '">' + status + selisih + '</div>'
+                        }
+                    },
+                    { data: 'updated_at' },
                     {
                         data: null,
                         render: function (data) {

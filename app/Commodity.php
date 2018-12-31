@@ -31,21 +31,21 @@ class Commodity extends Model
 
     public function getBeliAttribute()
     {
-        return number_format($this->buy, 2, ',', '.');
+        return number_format($this->buy, 0, ',', '.');
     }
 
     public function getJualAttribute()
     {
-        return number_format($this->sell, 2, ',', '.');
+        return number_format($this->sell, 0, ',', '.');
     }
 
     public function getBeliLamaAttribute()
     {
-        return number_format($this->old_buy, 2, ',', '.');
+        return number_format($this->old_buy, 0, ',', '.');
     }
 
     public function getJualLamaAttribute()
     {
-        return number_format($this->old_sell, 2, ',', '.');
+        return number_format($this->old_sell, 0, ',', '.');
     }
 }

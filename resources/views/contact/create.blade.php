@@ -33,7 +33,7 @@
 				<div class="box-body">
 					<form method="POST" action="{{ route('contacts.store') }}">
 					<div class="row">
-						<div class="col-md-2">
+						<div class="col-md-4">
 							<label>Posisi *</label>
 							<select name="posisi" id="" class="select2 form-control">
                                 <option value="">Pilih Posisi</option>
@@ -42,11 +42,18 @@
                                 <option value="kas">Kantor Kas</option>
                             </select>
 						</div>
-						<div class="col-md-5">
+						<div class="col-md-8">
 							<label>Nama *</label>
-							<input type="text" class="form-control" name="name" placeholder="Nama Lengkap">
+							<input type="text" class="form-control" name="name" placeholder="Nama Daerah">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+						<div class="col-md-6">
+							<label>Nama Pimpinan *</label>
+							<input type="text" class="form-control" name="kepala" placeholder="Nama Pimpinan Pusat/Cabang/Kas">
 						</div>
-						<div class="col-md-5">
+						<div class="col-md-6">
 							<label>Telephone *</label>
 							<input type="text" class="form-control" name="telp" placeholder="Telephone">
 						</div>
@@ -79,8 +86,8 @@
 					<br>
 					<div class="row">
 						<div class="col-md-6">
-							<a href="{{ url('contacts') }}" class="btn btn-success btn-flat"> Back</a>
-							<input type="submit" name="simpan" value="Create" class="btn btn-primary btn-flat">
+                            <a href="{{ url('contacts') }}" class="btn btn-success btn-flat"><i class="fa fa-reply"></i> Kembali</a>
+                            <button class="btn btn-primary btn-flat"><i class="fa fa-save"></i> Simpan</button>
 							{{ csrf_field() }}
 						</div>	
 					</div>

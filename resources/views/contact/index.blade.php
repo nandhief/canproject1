@@ -77,7 +77,8 @@
 								<tr>
 									<th>NO</th>
 									<th>POSISI</th>
-									<th>NAMA</th>
+									<th>PIMPINAN</th>
+									<th>DAERAH</th>
 									<th>TELP</th>
 									<th>ALAMAT</th>
 									<th>LAT & LONG</th>
@@ -130,6 +131,7 @@
                 columns: [
                 	{ data: 'no' },
                 	{ data: 'posisi' },
+                	{ data: 'kepala' },
                 	{ data: 'name' },
                 	{ data: 'telp' },
                 	{ data: 'alamat' },

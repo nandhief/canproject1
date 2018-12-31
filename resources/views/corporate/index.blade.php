@@ -55,7 +55,12 @@
                 "deferRender": true,
                 columns: [
                 	{ data: 'no' },
-                	{ data: 'bagian' },
+                	{
+                        data: null,
+                        render: function (data) {
+                            return data.bagian.toUpperCase()
+                        }
+                    },
                 	{ data: 'name' },
                 	{ data: 'jabatan' },
                 	{

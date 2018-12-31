@@ -38,7 +38,7 @@ class ContactController extends Controller
             'latitude' => 'required',
             'longitude' => 'required'
         ]);
-        if ($request->posisi == 'pusat') {
+        if (Contact::wherePosisi($request->posisi)->first()) {
             return redirect()->back()->withErrors('Kantor Pusat Hanya Boleh Satu');
         }
         $table = Contact::create($request->all());
@@ -62,10 +62,11 @@ class ContactController extends Controller
             'latitude' => 'required',
             'longitude' => 'required'
         ]);
-        if ($request->posisi == 'pusat') {
+        $table = Contact::find($id);
+        if (strtolower($table->posisi) == $request->posisi) {
+        } else if (Contact::wherePosisi($request->posisi)->first()) {
             return redirect()->back()->withErrors('Kantor Pusat Hanya Boleh Satu');
         }
-        $table = Contact::find($id);
         $table->update($request->all());
         return redirect()->route('contacts.index')->withSuccess('Data Berhasil Diupdate');
     }

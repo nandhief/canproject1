@@ -20,7 +20,7 @@
 				<div class="box-body">
 					<form method="POST" action="{{ route('corporates.store') }}" enctype="multipart/form-data">
 					<div class="row">
-						<div class="col-md-2">
+						<div class="form-group col-md-2">
 							<label>Bagian *</label>
 							<select name="bagian" id="" class="select2 form-control">
                                 <option value="">Pilih Bagian</option>
@@ -28,29 +28,29 @@
                                 <option value="direksi">Direksi</option>
                             </select>
 						</div>
-						<div class="col-md-5">
+						<div class="form-group col-md-5">
 							<label>Nama *</label>
 							<input type="text" class="form-control" name="name" placeholder="Nama Lengkap">
 						</div>
-						<div class="col-md-5">
+						<div class="form-group col-md-5">
 							<label>Jabatan *</label>
 							<input type="text" class="form-control" name="jabatan" placeholder="Jabatan">
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-md-6">
+						<div class="form-group col-md-6">
 							<label>Foto *</label>
 							<input type="file" class="form-control" name="path_foto">
                         </div>
-                        <div class="col-md-4 col-md-offset-1 col-sm-6">
+                        <div class="form-group col-md-4 col-md-offset-1 col-sm-6">
                             <img src="" alt="" class="img-responsive path_foto">
                         </div>
 					</div>
 					<br>
 					<div class="row">
-						<div class="col-md-6">
-							<a href="{{ route('corporates.index') }}" class="btn btn-success btn-flat"><i class="fa fa-reply"></i> Kembali</a>
-							<input type="submit" name="simpan" value="Simpan" class="btn btn-primary btn-flat">
+						<div class="form-group col-md-6">
+                            <a href="{{ route('corporates.index') }}" class="btn btn-success btn-flat"><i class="fa fa-reply"></i> Kembali</a>
+                            <button class="btn btn-primary btn-flat"><i class="fa fa-save"></i> Simpan</button>
 							{{ csrf_field() }}
 						</div>	
 					</div>

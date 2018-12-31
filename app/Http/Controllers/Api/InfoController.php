@@ -131,7 +131,13 @@ class InfoController extends Controller
     {
         $valas = Valas::get();
         if ($valas) {
-            return json($valas->makeHidden(['id', 'created_at', 'updated_at']));
+            $data = [
+                'kode' => 1,
+                'pesan' => 'success',
+                'result' => $valas->makeHidden(['id', 'created_at', 'updated_at']),
+                'updated_at' => $valas->sortByDesc('updated_at')->first()->updated_at->toDateTimeString(),
+            ];
+            return response()->json($data);
         }
         return json([], 'error', 1);
     }
@@ -144,7 +150,13 @@ class InfoController extends Controller
     {
         $commodity = Commodity::get();
         if ($commodity) {
-            return json($commodity->makeHidden(['id', 'created_at', 'updated_at']));
+            $data = [
+                'kode' => 1,
+                'pesan' => 'success',
+                'result' => $commodity->makeHidden(['id', 'created_at', 'updated_at']),
+                'updated_at' => $commodity->sortByDesc('updated_at')->first()->updated_at->toDateTimeString(),
+            ];
+            return response()->json($data);
         }
         return json([], 'error', 1);
     }
@@ -233,9 +245,9 @@ class InfoController extends Controller
 
     public function contacts()
     {
-        $cabang = Contact::wherePosisi('cabang')->get();
-        $kas = Contact::wherePosisi('kas')->get();
-        $pusat = Contact::wherePosisi('pusat')->get();
+        $cabang = Contact::wherePosisi('cabang')->get()->makeHidden('created_at', 'updated_at');
+        $kas = Contact::wherePosisi('kas')->get()->makeHidden('created_at', 'updated_at');
+        $pusat = Contact::wherePosisi('pusat')->get()->makeHidden('created_at', 'updated_at');
         $socials = (array) Setting::social();
         foreach ($socials as $key => $value) {
             $social[] = array_merge(['nama' => ucwords($key)], (array) $value);

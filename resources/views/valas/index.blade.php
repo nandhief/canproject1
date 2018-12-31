@@ -57,12 +57,13 @@
 								<tr>
 									<th>#</th>
 									<th>NAMA MATA UANG</th>
-									<th>SIMBOL MATA UANG</th>
+									<th>SIMBOL</th>
 									<th>BELI</th>
 									<th>JUAL</th>
 									<th>BELI LAMA</th>
 									<th>JUAL LAMA</th>
 									<th>STATUS</th>
+									<th>TGL PERBARUI</th>
 									<th data-orderable="false" data-searchable="false">&nbsp;</th>
 								</tr>
 							</thead>
@@ -177,6 +178,7 @@
                             return '<div class="text-' + color + '">' + status + selisih + '</div>'
                         }
                     },
+                    { data: 'updated_at' },
                     {
                         data: null,
                         render: function (data) {
