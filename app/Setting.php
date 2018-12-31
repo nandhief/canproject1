@@ -19,8 +19,8 @@ class Setting extends Model
 
     public function scopeMail($query)
     {
-        $socials = $query->whereTitle('mail')->first();
-        return json_decode($socials->data);
+        $mail = $query->whereTitle('mail')->first();
+        return json_decode($mail->data);
     }
 
     public function scopeAndroid($query)

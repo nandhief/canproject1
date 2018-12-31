@@ -65,6 +65,7 @@
 					</div>
 					<div class="tab-pane fade{{ request()->edit != 'profile' ? ' in active' : '' }}" id="setting">
 						<div class="box-group" id="accordion">
+                            @if (auth()->id() === 1)
                             <div class="panel box box-default">
                                 <div class="box-header with-border">
                                     <h4 class="box-title">
@@ -74,19 +75,41 @@
                                     </h4>
                                 </div>
                                 <div id="mail" class="panel-collapse collapse" aria-expanded="false">
-                                    {{ Form::open(['route' => 'settings.mail', 'id' => 'mail']) }}
-                                    <div class="box-body mail">
+                                    {{ Form::open(['route' => 'settings.mail', 'class' => 'mail']) }}
+                                    <div class="box-body">
+                                        <div><strong>SERVER</strong></div>
                                         <div class="form-group col-sm-4">
                                             <label for="">SMTP Server</label>
-                                            <input type="text" name="server" class="form-control" value="{{ $mails->server }}" required>
+                                            <input type="text" name="server_host" class="form-control" value="{{ $mails->server->host }}" required>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <label for="">Email Akun</label>
-                                            <input type="email" name="email" class="form-control" value="{{ $mails->email }}" required>
+                                            <input type="email" name="server_email" class="form-control" value="{{ $mails->server->email }}" required>
                                         </div>
                                         <div class="form-group col-sm-4">
                                             <label for="">Password</label>
-                                            <input type="password" name="password" class="form-control" value="{{ $mails->password }}" required>
+                                            <input type="password" name="server_password" class="form-control" value="{{ $mails->server->password }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div><strong>NOTIFIKASI KE PUSAT UNTUK</strong></div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="">Email Akun Untuk Kredit</label>
+                                            <input type="hidden" name="kredit_host" value="{{ $mails->kredit->host }}">
+                                            <input type="hidden" name="kredit_password" value="{{ $mails->kredit->password }}">
+                                            <input type="email" name="kredit_email" class="form-control" value="{{ $mails->kredit->email }}" required>
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="">Email Akun Untuk Tabungan</label>
+                                            <input type="hidden" name="tabungan_host" value="{{ $mails->tabungan->host }}">
+                                            <input type="hidden" name="tabungan_password" value="{{ $mails->tabungan->password }}">
+                                            <input type="email" name="tabungan_email" class="form-control" value="{{ $mails->tabungan->email }}" required>
+                                        </div>
+                                        <div class="form-group col-sm-12">
+                                            <label for="">Email Akun Untuk Karir</label>
+                                            <input type="hidden" name="career_host" value="{{ $mails->career->host }}">
+                                            <input type="hidden" name="career_password" value="{{ $mails->career->password }}">
+                                            <input type="email" name="career_email" class="form-control" value="{{ $mails->career->email }}" required>
                                         </div>
                                     </div>
                                     <div class="box-footer">
@@ -95,32 +118,7 @@
                                     {{ Form::close() }}
                                 </div>
                             </div>
-                            {{-- <div class="panel box box-default">
-                                <div class="box-header with-border">
-                                    <h4 class="box-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#android" class="collapsed" aria-expanded="false">
-                                        Notification Mobile App
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="android" class="panel-collapse collapse" aria-expanded="false">
-                                    {{ Form::open(['id' => 'android']) }}
-                                    <div class="box-body android">
-                                        <div class="form-group col-sm-4">
-                                            <label for="">Nama Package Android</label>
-                                            <input type="text" name="name" class="form-control" value="{{ $androids->name }}">
-                                        </div>
-                                        <div class="form-group col-sm-8">
-                                            <label for="">Token</label>
-                                            <input type="text" name="token" class="form-control" value="{{ $androids->token }}">
-                                        </div>
-                                    </div>
-                                    <div class="box-footer">
-                                        <button type="button" class="btn btn-sm btn-flat btn-primary pull-right"><i class="fa fa-save"></i> Simpan</button>
-                                    </div>
-                                    {{ Form::close() }}
-                                </div>
-                            </div> --}}
+                            @endif
                             <div class="panel box box-default">
                                 <div class="box-header with-border">
                                     <h4 class="box-title">
@@ -156,7 +154,7 @@
                                     <div class="box-body visi">
                                         <div class="form-group">
                                             <label for="">Visi Perusahaan</label>
-                                            {{ Form::textarea('data', $visi->data, ['class' => 'form-control', 'required' => true]) }}
+                                            {{ Form::textarea('data', $visi->data, ['class' => 'form-control text-editor', 'required' => true]) }}
                                         </div>
                                     </div>
                                     <div class="box-footer">
@@ -177,8 +175,8 @@
                                     {{ Form::open(['route' => 'settings.misi', 'id' => 'misi']) }}
                                     <div class="box-body misi">
                                         <div class="form-group">
-                                            <label for="">Misi Perusahaan <small class="text-muted">(Untuk memisah dengan menggunakan tanda <kbd>;</kbd>)</small></label>
-                                            {{ Form::textarea('data', $misi->data, ['class' => 'form-control', 'required' => true]) }}
+                                            <label for="">Misi Perusahaan</label>
+                                            {{ Form::textarea('data', $misi->data, ['class' => 'form-control text-editor', 'required' => true]) }}
                                         </div>
                                     </div>
                                     <div class="box-footer">
@@ -195,3 +193,17 @@
     </div>
 @endsection
 
+@section('js')
+    <script src="{{ asset('plugins/tinymce/tinymce.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            tinymce.init({
+                selector: '.text-editor',
+				menubar: false,
+				statusbar: false,
+                plugins: 'advlist autolink link lists charmap print preview table code autoresize',
+                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | formatselect fontselect fontsizeselect | bullist numlist outdent indent blockquote'
+            })
+        })
+    </script>
+@endsection

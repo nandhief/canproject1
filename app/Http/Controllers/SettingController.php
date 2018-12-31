@@ -97,14 +97,21 @@ class SettingController extends Controller
 
     public function mail(Request $request)
     {
-        $request->validate([
-            'server' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        $mail = Setting::whereTitle('mail')->first();
-        $mail->update([
-            'data' => json_encode($request->except('_token')),
+        $mail = Setting::mail();
+        $mail->server->host = $request->server_host;
+        $mail->server->email = $request->server_email;
+        $mail->server->password = $request->server_password;
+        $mail->kredit->host = $request->kredit_host;
+        $mail->kredit->email = $request->kredit_email;
+        $mail->kredit->password = $request->kredit_password;
+        $mail->tabungan->host = $request->tabungan_host;
+        $mail->tabungan->email = $request->tabungan_email;
+        $mail->tabungan->password = $request->tabungan_password;
+        $mail->career->host = $request->career_host;
+        $mail->career->email = $request->career_email;
+        $mail->career->password = $request->career_password;
+        Setting::whereTitle('mail')->update([
+            'data' => json_encode($mail),
         ]);
         return redirect()->route('settings.index')->withSuccess('Update Mail Server berhasil diperbarui');
     }
