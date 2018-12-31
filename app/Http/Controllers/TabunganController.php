@@ -8,6 +8,7 @@ use App\Mail\HistoryMail;
 use App\Modul\FirebasePush as Push;
 use App\Modul\Firebase;
 use Illuminate\Http\Request;
+use App\Setting;
 
 class TabunganController extends Controller
 {
@@ -71,7 +72,7 @@ class TabunganController extends Controller
         $push->setImage(null);
         $push->setIsBackground(FALSE);
         $push->setPayload("tabungan");
-        $firebase->send($tabungan->customer->user->fcm_token, $push->getPush());
+        $firebase->send($tabungan->customer->user->fcm_token, ['body' => 'Riwayat Pengajuan Tabungan: ' . $request->description], $push->getPush());
         if ($request->reply) {
             $history = (object) [
                 'name' => $tabungan->customer->user->name,
@@ -81,6 +82,12 @@ class TabunganController extends Controller
             ];
             \Mail::to($tabungan->customer->user->email, $tabungan->customer->user->name)->send(new HistoryMail($history));
         }
+        $notification = 'Permeritahuan: Admin ' . auth()->user()->name . '(' . auth()->user()->email . ') sedang menanggapi pengajuan tabungan dari pengguna ' . $credit->customer->user->name . '(' . $credit->customer->user->email . '): ' . $request->description . ($request->reply ? strip_tags('#' . $request->reply) : '');
+        \Mail::raw($notification, function ($message) {
+            $message->from(Setting::mail()->server->email, 'BPR MAA Mobile Backend');
+            $message->to(Setting::mail()->tabungan->email);
+            $message->subject('Tabungan BPR MAA Mobile Apps');
+        });
         return redirect()->route('tabungan.show', $tabungan->id)->withSuccess('Data Proses pengajuan tabungan berhasil diupdate');
     }
 

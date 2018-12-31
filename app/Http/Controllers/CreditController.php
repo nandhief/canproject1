@@ -8,6 +8,7 @@ use App\Mail\HistoryMail;
 use App\Modul\FirebasePush as Push;
 use App\Modul\Firebase;
 use Illuminate\Http\Request;
+use App\Setting;
 
 class CreditController extends Controller
 {
@@ -60,7 +61,7 @@ class CreditController extends Controller
         $push->setImage(null);
         $push->setIsBackground(FALSE);
         $push->setPayload("credit");
-        $firebase->send($credit->customer->user->fcm_token, $push->getPush());
+        $firebase->send($credit->customer->user->fcm_token, ['body' => 'Riwayat Pengajuan Kredit: ' . $request->description], $push->getPush());
         if ($request->reply) {
             $history = (object) [
                 'name' => $credit->customer->user->name,
@@ -70,6 +71,12 @@ class CreditController extends Controller
             ];
             \Mail::to($credit->customer->user->email, $credit->customer->user->name)->send(new HistoryMail($history));
         }
+        $notification = 'Permeritahuan: Admin ' . auth()->user()->name . '(' . auth()->user()->email . ') sedang menanggapi pengajuan kredit dari pengguna ' . $credit->customer->user->name . '(' . $credit->customer->user->email . '): ' . $request->description . ($request->reply ? strip_tags('#' . $request->reply) : '');
+        \Mail::raw($notification, function ($message) {
+            $message->from(Setting::mail()->server->email, 'BPR MAA Mobile Backend');
+            $message->to(Setting::mail()->kredit->email);
+            $message->subject('Kredit BPR MAA Mobile Apps');
+        });
         return redirect()->route('credits.show', $credit->id)->withSuccess('Data Proses pengajuan kredit berhasil diupdate');
     }
 

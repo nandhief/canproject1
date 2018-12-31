@@ -13,6 +13,7 @@ use App\Tabungan;
 use App\Customer;
 use App\History;
 use App\Vacancy;
+use App\Setting;
 
 class ApiController extends Controller
 {
@@ -167,6 +168,11 @@ class ApiController extends Controller
             $request->path_resume->move('./storage/original', $filename);
             $request = new Request(array_merge($request->all(), ['path_resume' => $filename]));
         }
+        \Mail::raw('Permeritahuan: ' . $request->name . '(' . $request->email . ') sedang melamar pekerjaan: ' . $vacancy->name, function ($message) {
+            $message->from(Setting::mail()->server->email, 'BPR MAA Mobile Backend');
+            $message->to(Setting::mail()->career->email);
+            $message->subject('Karir BPR MAA Mobile Apps');
+        });
         $vacancy->careers()->create(array_merge($request->all(), ['user_id' => $user->id]));
         return json('Terima Kasih, lamaran anda berhasil dikirim');
     }
@@ -220,6 +226,11 @@ class ApiController extends Controller
         if ($customer->credit) {
             return json('Maaf, Anda sudah melakukan pengajuan kredit. Mohon tunggu proses dari tim Kami', 'error', 0);
         }
+        \Mail::raw('Permeritahuan: ' . $request->name . '(' . $request->email . ') sedang mengajukan Kredit', function ($message) {
+            $message->from(Setting::mail()->server->email, 'BPR MAA Mobile Backend');
+            $message->to(Setting::mail()->kredit->email);
+            $message->subject('Pengajuan Kredit BPR MAA Mobile Apps');
+        });
         $history = new History(['description' => 'Pengajuan Kredit']);
         $credit = $customer->credit()->create([]);
         $credit->histories()->save($history);
@@ -240,6 +251,11 @@ class ApiController extends Controller
         if ($customer->tabungan) {
             return json('Maaf, Anda sudah melakukan pengajuan tabungan. Mohon tunggu proses dari tim Kami', 'error', 0);
         }
+        \Mail::raw('Permeritahuan: ' . $request->name . '(' . $request->email . ') sedang mengajukan Tabungan', function ($message) {
+            $message->from(Setting::mail()->server->email, 'BPR MAA Mobile Backend');
+            $message->to(Setting::mail()->kredit->email);
+            $message->subject('Pengajuan Tabungan BPR MAA Mobile Apps');
+        });
         $history = new History(['description' => 'Pengajuan Tabungan']);
         $tabungan = $customer->tabungan()->create([]);
         $tabungan->histories()->save($history);

@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Career;
 use App\Vacancy;
 use App\Mail\CareerMail;
+use App\Modul\FirebasePush as Push;
+use App\Modul\Firebase;
+use App\Setting;
+use App\User;
 
 class CareerController extends Controller
 {
@@ -83,7 +87,7 @@ class CareerController extends Controller
         return view('careers.show', compact('career'));
     }
 
-    public function update(Request $request, Career $career)
+    public function update(Request $request, Career $career, Push $push, Firebase $firebase)
     {
         $request->validate([
             'keterangan' => 'required',
@@ -92,6 +96,20 @@ class CareerController extends Controller
             $data = (object) array_merge($request->all(), $career->makeHidden(['reply'])->toArray());
             \Mail::to($career->email, $career->name)->send(new CareerMail($data));
         }
+        $push->setTitle('BPR MAA MOBILE');
+        $push->setMessage('Info Pengajuan Lamaran: ' . $request->keterangan);
+        $push->setImage(null);
+        $push->setIsBackground(FALSE);
+        $push->setPayload("tabungan");
+        if ($user = User::whereEmail($career->email)->first()) {
+            $firebase->send($user->fcm_token, ['body' => 'Info Pengajuan Lamaran: ' . $request->keterangan], $push->getPush());
+        }
+        $notification = 'Permeritahuan: Admin ' . auth()->user()->name . '(' . auth()->user()->email . ') sedang menanggapi karir ' . $career->vacancy->name . ' dari pelamar ' . $career->name . '(' . $career->email . '): ' . $request->keterangan . ($request->reply ? strip_tags('#' . $request->reply) : '');
+        \Mail::raw($notification, function ($message) {
+            $message->from(Setting::mail()->server->email, 'BPR MAA Mobile Backend');
+            $message->to(Setting::mail()->career->email);
+            $message->subject('Karir BPR MAA Mobile Apps');
+        });
         $career->update(array_merge($request->all(), ['status' => true]));
         return redirect()->route('careers.show', $career->id)->withSuccess('Tanggapan ke pelamar sudah dikirim');
     }
